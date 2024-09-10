@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express, { Application, Request, Response } from "express";
 import { json } from "body-parser";
 
+// import inventoryRoute
 import connectMongoose from "./db";
 
 dotenv.config();
