@@ -1,10 +1,12 @@
 import dotenv from "dotenv";
-import express, { Request, Response } from "express";
+import express, { Application, Request, Response } from "express";
 import { json } from "body-parser";
+
+import connectMongoose from "./db";
 
 dotenv.config();
 
-const app = express();
+const app: Application = express();
 app.use(json());
 const PORT = process.env.PORT || 6000;
 
@@ -14,6 +16,14 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`server is listening on http://localhost:${PORT}`);
-});
+async function dbConnect() {
+  try {
+    await connectMongoose();
+    app.listen(PORT, () => {
+      console.log(`server is listening on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+dbConnect();
