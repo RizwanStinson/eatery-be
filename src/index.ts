@@ -2,7 +2,8 @@ import dotenv from "dotenv";
 import express, { Application, Request, Response } from "express";
 import { json } from "body-parser";
 
-import router from "./routes/inventoryRoute/inventoryRoute";
+import routerInventory from "./routes/inventoryRoute/inventoryRoute";
+import routerMenu from "./routes/menuRoute/menuRoute";
 
 import connectMongoose from "./db";
 
@@ -29,6 +30,7 @@ async function dbConnect() {
   }
 }
 
-app.use("/inventory", router);
+app.use("/inventory", routerInventory);
+app.use("/menu", routerMenu);
 
 dbConnect();
