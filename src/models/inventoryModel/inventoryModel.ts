@@ -8,6 +8,6 @@ const addIngredientSchema: Schema = new Schema<Iaddingredient>({
   capacity: { type: Number, required: true },
 });
 
-const newIngredient = mongoose.model("newIngredient", addIngredientSchema);
+const newIngredient = mongoose.model("Ingredient", addIngredientSchema);
 
 export default newIngredient;
