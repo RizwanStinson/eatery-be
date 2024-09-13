@@ -1,14 +1,15 @@
 import dotenv from "dotenv";
+dotenv.config();
 import express, { Application, Request, Response } from "express";
 import { json } from "body-parser";
-
 import connectMongoose from "./db";
+import router from "./routes/allRoute";
 
-dotenv.config();
+const PORT = process.env.PORT || 5000;
 
 const app: Application = express();
 app.use(json());
-const PORT = process.env.PORT || 5000;
+app.use(router);
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
