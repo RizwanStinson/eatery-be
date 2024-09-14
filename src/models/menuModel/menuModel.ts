@@ -4,7 +4,7 @@ import {
   Isize,
   IaddOn,
   Iingredient,
-} from "../../interfaces/menuInterface";
+} from "../../interfaces/inventoryInterface/interfaces";
 
 const ingredientSchema: Schema = new Schema<Iingredient>({
   name: { type: String, required: true },

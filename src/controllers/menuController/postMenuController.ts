@@ -5,7 +5,7 @@ import {
   IaddOn,
   Iingredient,
   Isize,
-} from "../../interfaces/menuInterface";
+} from "../../interfaces/inventoryInterface/interfaces";
 
 const menuController = async (req: Request, res: Response) => {
   try {

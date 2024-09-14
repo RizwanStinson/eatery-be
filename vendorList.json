@@ -19,5 +19,12 @@
     "expiryDate": "2024-09-16",
     "price": 3.0,
     "stock": 100
+  },
+  {
+    "itemName": "Salami",
+    "unit": "Pieces",
+    "expiryDate": "2024-09-21",
+    "price": 1.2,
+    "stock": 100
   }
 ]

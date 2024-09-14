@@ -1,13 +1,18 @@
 import mongoose, { Schema } from "mongoose";
-import { Iaddingredient } from "../../interfaces/inventoryInterface";
-
-const addIngredientSchema: Schema = new Schema<Iaddingredient>({
-  name: { type: String, required: true },
-  unit: { type: String, required: true },
-  orderPoint: { type: Number, required: true },
-  capacity: { type: Number, required: true },
+import { Idetails } from "../../interfaces/inventoryInterface/interfaces";
+const inventorySchema: Schema = new Schema<Idetails>({
+  name: { type: String },
+  currentStock: { type: Number, default: 0 },
+  unit: { type: String },
+  unitCost: { type: Number, default: 0 },
+  orderPoint: { type: Number },
+  prevStock: { type: Number, default: null },
+  prevStockExpiry: { type: Date, default: null },
+  newStock: { type: Number, default: null },
+  newStockExpiry: { type: Date, default: null },
+  capacity: { type: Number },
 });
 
-const newIngredient = mongoose.model("Ingredient", addIngredientSchema);
+const inventory = mongoose.model("Inventory", inventorySchema);
 
-export default newIngredient;
+export default inventory;
