@@ -4,7 +4,7 @@ const getProfileRouter = express.Router();
 
 getProfileRouter.get(
   "/user-data",
-  authMiddleware,
+  authMiddleware(["Admin"]), // Only Admin users allowed
   (req: Request, res: Response) => {
     const user = (req as any).user;
 
