@@ -1,7 +1,12 @@
 import mongoose, { Schema } from "mongoose";
 import { IUser } from "../../interfaces/userInterface";
 
-const allowedUserTypes = ["Admin", "Chef", "Manager"];
+const allowedUserTypes = [
+  "Admin",
+  "POSManager",
+  "InventoryManager",
+  "MenuManager",
+];
 
 const userSchema = new Schema<IUser>({
   firstName: {
@@ -25,7 +30,7 @@ const userSchema = new Schema<IUser>({
     type: String,
     required: true,
     unique: true,
-    match: [/\S+@\S+\.\S+/, "Invalid email format"],
+    //match: [/\S+@\S+\.\S+/, "Invalid email format"],
   },
   phone: {
     type: Number,
