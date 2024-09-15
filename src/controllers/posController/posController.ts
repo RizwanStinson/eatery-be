@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { POS } from "../../models/posModel/posModel";
-import { Imenu, IaddOn } from "../../interfaces/posInterface";
 
 export const createOrder = async (req: Request, res: Response) => {
   try {
@@ -25,7 +24,6 @@ export const createOrder = async (req: Request, res: Response) => {
   }
 };
 
-// Get order by table number
 export const getOrderByTable = async (req: Request, res: Response) => {
   const tableNO = Number(req.params.tableNO);
 
@@ -45,7 +43,6 @@ export const getOrderByTable = async (req: Request, res: Response) => {
   }
 };
 
-// Update table status
 export const updateTableStatus = async (req: Request, res: Response) => {
   const tableNO = req.params.tableNO;
   const { tableStatus } = req.body;
@@ -73,7 +70,6 @@ export const updateTableStatus = async (req: Request, res: Response) => {
   }
 };
 
-// Get all orders
 export const getAllOrders = async (req: Request, res: Response) => {
   try {
     const orders = await POS.find();
@@ -89,7 +85,6 @@ export const getAllOrders = async (req: Request, res: Response) => {
   }
 };
 
-// Delete order by table number
 export const deleteOrder = async (req: Request, res: Response) => {
   const tableNO = req.params.tableNO;
 
