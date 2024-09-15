@@ -31,8 +31,5 @@ async function dbConnect() {
   }
 }
 
-app.use('/ingredient', newIngredientRoute);
-app.use('/stock', stockRoute);
-app.use('/menu', routerMenu);
 
 dbConnect();
