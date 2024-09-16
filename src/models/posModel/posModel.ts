@@ -24,11 +24,9 @@ const MenuSchema = new Schema({
   tastyTag: { type: String, required: true },
   size: { type: String, required: true }, // Changed size to string
   ingredients: { type: [IngredientSchema], required: true },
-  preparationTime: { type: Number, required: true },
   sellingPrice: { type: Number, required: true },
   addOns: { type: [AddOnSchema], required: true },
   quantity: { type: Number, required: true },
-  totalPrice: { type: Number, required: true }, // Added total price
 });
 
 const POSSchema = new Schema(
@@ -36,7 +34,8 @@ const POSSchema = new Schema(
     tableNO: { type: Number, required: true },
     tableStatus: { type: String, required: true },
     menuItems: { type: [MenuSchema], required: true },
-    optionalNotes: { type: String },
+    preparationTime: { type: Number, required: true },
+    totalPrice: { type: Number, required: true },
   },
   {
     timestamps: true,

@@ -10,7 +10,7 @@ import { authMiddleware } from "../../middlewares/auth";
 
 const posRouter = express.Router();
 
-posRouter.post("/new-order", authMiddleware(["Admin", "POSManager"]), createOrder);
+posRouter.post("/new-order", createOrder);
 posRouter.get("/orders/:tableNO", authMiddleware(["Admin", "POSManager"]), getOrderByTable);
 posRouter.put("/orders/:tableNO/status", authMiddleware(["Admin", "POSManager"]), updateTableStatus);
 posRouter.get("/orders", authMiddleware(["Admin", "POSManager"]), getAllOrders);
