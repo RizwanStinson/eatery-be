@@ -6,6 +6,11 @@ const stockSchema: Schema = new Schema<Istock>({
   cost: { type: Number },
   stock: { type: Number },
   expiry: { type: Date },
+  organization: {
+    type: Schema.Types.ObjectId,
+    ref: "Organization",
+    required: true,
+  },
 });
 
 const order = mongoose.model("order", stockSchema);

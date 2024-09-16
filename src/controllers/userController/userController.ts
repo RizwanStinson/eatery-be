@@ -1,14 +1,16 @@
 import { Request, Response } from "express";
 import User from "../../models/userModel/userModel";
+import Organization from "../../models/organizations/organizationModel"; // Import Organization model
 import { compare, hash } from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const SECRET_KEY = process.env.JWT_SECRET || "";
+
 export async function signup(req: Request, res: Response) {
   const {
     firstName,
     lastName,
-    organization,
+    organizationName, // Use organizationName
     userType,
     email,
     phone,
@@ -16,6 +18,14 @@ export async function signup(req: Request, res: Response) {
   } = req.body;
 
   try {
+    let org = await Organization.findOne({
+      name: new RegExp(`^${organizationName}$`, "i"),
+    });
+    if (!org) {
+      org = await Organization.create({ name: organizationName });
+      console.log(`Created new organization: ${organizationName}`);
+    }
+
     const user = await User.findOne({ email: email });
     if (user) {
       return res
@@ -29,7 +39,7 @@ export async function signup(req: Request, res: Response) {
     const newUser = await User.create({
       firstName,
       lastName,
-      organization,
+      organization: org._id, 
       userType,
       email,
       phone,
@@ -41,14 +51,17 @@ export async function signup(req: Request, res: Response) {
       .send({ message: "User created successfully", newUser });
   } catch (error) {
     console.log("Error creating user:", error);
-    res.status(400).json({ error, message: "Could not create user" });
+    res.status(400).json({ error: "400", message: "Could not create user" });
   }
 }
+
 export async function login(req: Request, res: Response) {
-  const { email, password, organization, userType } = req.body;
+  const { email, password, organizationName, userType } = req.body;
 
   try {
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email: email })
+      .populate("organization")
+      .exec();
     if (!user) {
       return res
         .status(401)
@@ -60,7 +73,8 @@ export async function login(req: Request, res: Response) {
         .status(401)
         .send({ error: "401", message: "Email or password is incorrect." });
     }
-    if (user.organization !== organization) {
+    const org = await Organization.findById(user.organization);
+    if (!org || org.name !== organizationName) {
       return res
         .status(403)
         .send({ error: "403", message: "Invalid organization." });
@@ -71,16 +85,19 @@ export async function login(req: Request, res: Response) {
         .status(403)
         .send({ error: "403", message: "Invalid user type." });
     }
+
+    // Generate token
     const token = jwt.sign(
       {
         userId: user._id,
         email: user.email,
-        organization: user.organization,
+        organization: org._id,
         userType: user.userType,
       },
       SECRET_KEY,
       { expiresIn: "1h" }
     );
+
     return res.status(200).send({
       message: "Login successful",
       token,

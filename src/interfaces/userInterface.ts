@@ -1,9 +1,12 @@
-export interface IUser {
+import { Document, ObjectId } from "mongoose";
+import { IOrganization } from "../models/organizations/organizationModel";
+
+export interface IUser extends Document {
   firstName: string;
   lastName: string;
-  organization: string;
+  organization: ObjectId | IOrganization; 
   userType: string;
-  phone: number;
   email: string;
+  phone: number;
   password: string;
 }

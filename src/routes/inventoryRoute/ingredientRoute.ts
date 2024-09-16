@@ -7,12 +7,13 @@ const newIngredientRoute = Router();
 
 newIngredientRoute.post(
   "/addingredient",
-  authMiddleware(["Admin", "InventoryManager"]),
+  authMiddleware(["Admin", "InventoryManager"]), // Ensure the user is authenticated
   postIngredientController
 );
+
 newIngredientRoute.get(
   "/allingredient",
-  authMiddleware(["Admin", "InventoryManager"]),
+  authMiddleware(["Admin", "InventoryManager"]), // Ensure the user is authenticated
   getIngredientController
 );
 

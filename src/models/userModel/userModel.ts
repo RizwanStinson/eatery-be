@@ -1,5 +1,6 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 import { IUser } from "../../interfaces/userInterface";
+import { IOrganization } from "../organizations/organizationModel";
 
 const allowedUserTypes = [
   "Admin",
@@ -18,7 +19,8 @@ const userSchema = new Schema<IUser>({
     required: true,
   },
   organization: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "Organization",
     required: true,
   },
   userType: {
@@ -30,7 +32,6 @@ const userSchema = new Schema<IUser>({
     type: String,
     required: true,
     unique: true,
-    //match: [/\S+@\S+\.\S+/, "Invalid email format"],
   },
   phone: {
     type: Number,
@@ -42,5 +43,6 @@ const userSchema = new Schema<IUser>({
   },
 });
 
+// Create the User model
 const User = mongoose.model<IUser>("User", userSchema);
 export default User;

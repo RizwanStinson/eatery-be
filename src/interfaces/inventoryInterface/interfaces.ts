@@ -1,8 +1,11 @@
+import { Types } from "mongoose";
+
 export interface Iaddingredient {
   name: string;
   unit: string;
   orderPoint: number;
   capacity: number;
+  organization: Types.ObjectId;
 }
 
 export interface Idetails {
@@ -16,6 +19,7 @@ export interface Idetails {
   newStock: number;
   newStockExpiry: Date;
   capacity: number;
+  organization: Types.ObjectId;
 }
 
 export interface Idummy {
@@ -31,6 +35,7 @@ export interface Istock {
   cost: number;
   stock: number;
   expiry: Date;
+  organization: Types.ObjectId;
 }
 
 export interface IingredientProperties {
