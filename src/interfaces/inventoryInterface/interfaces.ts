@@ -1,18 +1,18 @@
 export interface Iaddingredient {
-  name: string;
+  ingredient: string;
   unit: string;
-  orderPoint: number;
+  poo: number;
   capacity: number;
 }
 
 export interface Idetails {
-  name: string;
+  ingredient: string;
   currentStock: number;
   unit: string;
-  unitCost: number;
-  orderPoint: number;
+  cost: number;
+  poo: number;
   prevStock: number;
-  prevStockExpiry: Date;
+  prevExpiary: Date;
   newStock: number;
   newStockExpiry: Date;
   capacity: number;
