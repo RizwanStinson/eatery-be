@@ -1,17 +1,20 @@
 import { Request, Response } from "express";
-import { POS } from "../../models/posModel/posModel";  
+import { POS } from "../../models/posModel/posModel";
 
 export const createOrder = async (req: Request, res: Response) => {
   try {
-    const {orderDetails} = req.body;
+    const { orderDetails } =
+      req.body;
 
     const newOrder = new POS({
-      tableNO: orderDetails.tableNo,
-      tableStatus: orderDetails.tableStatus,
-      menuItems: orderDetails.menuItems,
+      tableNo : orderDetails.tableNo,
+      tableStatus : orderDetails.tableStatus ,
+      menuItems : orderDetails.menuItems,
       preparationTime: orderDetails.preparationTime,
-      totalPrice: orderDetails.totalPrice
+      totalPrice : orderDetails.totalPrice
     });
+
+    //console.log(newOrder);
 
     await newOrder.save();
 

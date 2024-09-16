@@ -19,27 +19,21 @@ const AddOnSchema = new Schema({
 });
 
 const MenuSchema = new Schema({
-  name: { type: String, required: true },
-  category: { type: String, required: true },
-  tastyTag: { type: String, required: true },
-  size: { type: String, required: true }, // Changed size to string
+  itemName: { type: String, required: true },
+  quantity: { type: Number, required: true },
+  selectedSize: { type: String, required: true }, // Changed size to string
   ingredients: { type: [IngredientSchema], required: true },
   sellingPrice: { type: Number, required: true },
   addOns: { type: [AddOnSchema], required: true },
-  quantity: { type: Number, required: true },
+  
 });
 
-const POSSchema = new Schema(
-  {
-    tableNO: { type: Number, required: true },
-    tableStatus: { type: String, required: true },
-    menuItems: { type: [MenuSchema], required: true },
-    preparationTime: { type: Number, required: true },
-    totalPrice: { type: Number, required: true },
-  },
-  {
-    timestamps: true,
-  }
-);
+const POSSchema = new Schema({
+  tableNo: { type: Number, required: true },
+  tableStatus: { type: String, required: true },
+  menuItems: { type: [MenuSchema], required: true },
+  preparationTime: { type: Number, required: true },
+  totalPrice: { type: Number, required: true },
+});
 
 export const POS = model<IPos>("POS", POSSchema);
