@@ -28,19 +28,19 @@
 // };
 // export default addIngredientController;
 
-import { Request, Response } from "express";
-import newIngredient from "../../models/inventoryModel/newIngredientModel";
-import inventory from "../../models/inventoryModel/inventoryModel";
+import { Request, Response } from 'express';
+import inventory from '../../models/inventoryModel/inventoryModel';
+import newIngredient from '../../models/inventoryModel/newIngredientModel';
 
 const postIngredientController = async (req: Request, res: Response) => {
   try {
     const Ingredient = {
-      name: req.body.name,
+      ingredient: req.body.ingredient,
       unit: req.body.unit,
-      orderPoint: req.body.orderPoint,
+      poo: req.body.poo,
       capacity: req.body.capacity,
     };
-    console.log("new Ingredient: ", Ingredient);
+    console.log('new Ingredient: ', Ingredient);
     const createIngredient = await newIngredient.create(Ingredient);
     const Inventory = await inventory.create(Ingredient);
     res.status(200).json({ createIngredient, Inventory });
@@ -49,4 +49,5 @@ const postIngredientController = async (req: Request, res: Response) => {
     res.send(error);
   }
 };
+
 export default postIngredientController;

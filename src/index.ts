@@ -1,24 +1,18 @@
 import { json } from 'body-parser';
 import dotenv from 'dotenv';
-import express, { Application, Request, Response } from 'express';
-import connectMongoose from './db';
-import router from './routes/allRoute';
+import express, { Application } from 'express';
+import cors = require('cors');
+
 import newIngredientRoute from './routes/inventoryRoute/ingredientRoute';
 import stockRoute from './routes/inventoryRoute/stockRoute';
 import routerMenu from './routes/menuRoute/menuRoute';
+
+import connectMongoose from './db';
 dotenv.config();
-
-const PORT = process.env.PORT || 5000;
-
 const app: Application = express();
 app.use(json());
-app.use(router);
-
-app.get('/', (req: Request, res: Response) => {
-  res.status(200).json({
-    message: 'Welcome to Eatery Backend',
-  });
-});
+const PORT = process.env.PORT || 6000;
+app.use(cors({ origin: '*' }));
 
 async function dbConnect() {
   try {
@@ -31,5 +25,8 @@ async function dbConnect() {
   }
 }
 
+app.use('/ingredient', newIngredientRoute);
+app.use('/stock', stockRoute);
+app.use('/menu', routerMenu);
 
 dbConnect();

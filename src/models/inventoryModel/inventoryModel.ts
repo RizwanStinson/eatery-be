@@ -1,13 +1,13 @@
 import mongoose, { Schema } from "mongoose";
 import { Idetails } from "../../interfaces/inventoryInterface/interfaces";
 const inventorySchema: Schema = new Schema<Idetails>({
-  name: { type: String },
+  ingredient: { type: String },
   currentStock: { type: Number, default: 0 },
   unit: { type: String },
-  unitCost: { type: Number, default: 0 },
-  orderPoint: { type: Number },
+  cost: { type: Number, default: 0 },
+  poo: { type: Number },
   prevStock: { type: Number, default: null },
-  prevStockExpiry: { type: Date, default: null },
+  prevExpiary: { type: Date, default: null },
   newStock: { type: Number, default: null },
   newStockExpiry: { type: Date, default: null },
   capacity: { type: Number },
