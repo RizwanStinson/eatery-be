@@ -12,7 +12,7 @@ export interface IaddOn {
   name: string;
   quantity: number;
   unit: string;
-  addonPrice: number;  // Add addOn price here
+  addonPrice: number; // Add addOn price here
 }
 
 export interface Isize {
@@ -20,7 +20,7 @@ export interface Isize {
   ingredients: Iingredient[];
   preparationTime: number;
   sellingPrice: number;
-  addOns: IaddOn[];  // AddOns now includes the addOnPrice
+  addOns: IaddOn[]; // AddOns now includes the addOnPrice
 }
 
 export interface Imenu {
@@ -33,12 +33,15 @@ export interface Imenu {
   sellingPrice: number;
   addOns: IaddOn[];
   quantity: number;
-  totalPrice: number;  // Add total price here
+  totalPrice: number; // Add total price here
 }
 
 export interface IPos {
   tableNO: number;
   tableStatus: string;
   menuItems: Imenu[];
-  optionalNotes?: string;
+  preparationTime: Number;
+  totalPrice: Number;
+  createdAt: Date;
+  updatedAt: Date;
 }

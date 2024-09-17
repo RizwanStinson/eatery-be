@@ -5,11 +5,15 @@ import posRouter from "./posRoute/posroute";
 import newIngredientRoute from "./inventoryRoute/ingredientRoute";
 import stockRoute from "./inventoryRoute/stockRoute";
 import routerMenu from "./menuRoute/menuRoute";
+import dashboardRouter from "./dashboardRoute/dashboardRoute";
 
 const router = Router();
 router.use("/", userRouter);
 router.use("/", getProfileRouter);
 router.use("/pos", posRouter);
+
+//dashboardRoutes
+router.use("/dashboardget", dashboardRouter);
 
 //inventory
 router.use("/ingredient", newIngredientRoute);
