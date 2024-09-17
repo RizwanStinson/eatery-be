@@ -58,7 +58,7 @@ export interface Isize {
 }
 
 export interface Imenu {
-  name: string;
+  itemName: string;
   category: string;
   tastyTag: string;
   mealTime: string;

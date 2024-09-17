@@ -21,7 +21,7 @@ posRouter.put(
   authMiddleware(["Admin", "POSManager"]),
   updateTableStatus
 );
-posRouter.get("/orders", authMiddleware(["Admin", "POSManager"]), getAllOrders);
+posRouter.get("/orders", getAllOrders);
 posRouter.delete(
   "/orders/:tableNO",
   authMiddleware(["Admin", "POSManager"]),

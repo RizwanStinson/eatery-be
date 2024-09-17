@@ -10,7 +10,7 @@ import {
 const menuController = async (req: Request, res: Response) => {
   try {
     const menuController: Imenu = {
-      name: req.body.name,
+      itemName: req.body.name,
       category: req.body.category,
       tastyTag: req.body.tastyTag,
       mealTime: req.body.mealTime,

@@ -29,7 +29,7 @@ const sizeSchema: Schema = new Schema<Isize>({
 });
 
 const menuSchema: Schema = new Schema<Imenu>({
-  name: { type: String, required: true },
+  itemName: { type: String, required: true },
   category: { type: String, required: true },
   tastyTag: { type: String },
   mealTime: { type: String },

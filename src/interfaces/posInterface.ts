@@ -24,7 +24,7 @@ export interface Isize {
 }
 
 export interface Imenu {
-  name: string;
+  itemName: string;
   category: string;
   tastyTag: string;
   size: string; // Size now stores just a string

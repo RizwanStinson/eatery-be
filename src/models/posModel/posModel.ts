@@ -41,5 +41,3 @@ const POSSchema = new Schema(
     timestamps: true,
   }
 );
-
-export const POS = model<IPos>("POS", POSSchema);
