@@ -43,7 +43,7 @@ const postIngredientController = async (req: Request, res: Response) => {
     console.log('new Ingredient: ', Ingredient);
     const createIngredient = await newIngredient.create(Ingredient);
     const Inventory = await inventory.create(Ingredient);
-    res.status(200).json({ createIngredient, Inventory });
+    res.status(200).json({ Inventory });
   } catch (error) {
     res.status(500);
     res.send(error);

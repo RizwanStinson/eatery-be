@@ -6,9 +6,9 @@ const inventorySchema: Schema = new Schema<Idetails>({
   unit: { type: String },
   cost: { type: Number, default: 0 },
   poo: { type: Number },
-  prevStock: { type: Number, default: null },
+  prevStock: { type: Number, default: 0 },
   prevExpiary: { type: Date, default: null },
-  newStock: { type: Number, default: null },
+  newStock: { type: Number, default: 0 },
   newStockExpiry: { type: Date, default: null },
   capacity: { type: Number },
 });
