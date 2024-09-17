@@ -13,7 +13,7 @@ routerMenu.post(
 );
 routerMenu.get(
   "/allmenu",
-  authMiddleware(["Admin", "MenuManager"]),
+  /* authMiddleware(["Admin", "MenuManager"]), */
   getMenuController
 );
 

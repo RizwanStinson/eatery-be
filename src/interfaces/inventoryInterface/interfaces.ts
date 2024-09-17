@@ -47,6 +47,7 @@ export interface IaddOn {
   name: string;
   quantity: number;
   unit: string;
+  addonPrice: number;
 }
 
 export interface Isize {
@@ -60,7 +61,6 @@ export interface Isize {
 export interface Imenu {
   name: string;
   category: string;
-  tastyTag: string;
   mealTime: string;
   description: string;
   size: Isize[];

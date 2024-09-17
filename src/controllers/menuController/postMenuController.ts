@@ -12,7 +12,6 @@ const menuController = async (req: Request, res: Response) => {
     const menuController: Imenu = {
       name: req.body.name,
       category: req.body.category,
-      tastyTag: req.body.tastyTag,
       mealTime: req.body.mealTime,
       description: req.body.description,
       size: req.body.size.map((size: Isize) => ({
@@ -30,6 +29,7 @@ const menuController = async (req: Request, res: Response) => {
           name: addOn.name,
           quantity: addOn.quantity,
           unit: addOn.unit,
+          addonPrice: addOn.addonPrice,
         })),
       })),
     };

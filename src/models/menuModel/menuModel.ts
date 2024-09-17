@@ -18,6 +18,7 @@ const addOnSchema: Schema = new Schema<IaddOn>({
   name: { type: String, required: true },
   quantity: { type: Number, required: true },
   unit: { type: String, required: true },
+  addonPrice: { type: Number, required: true },
 });
 
 const sizeSchema: Schema = new Schema<Isize>({
@@ -31,7 +32,6 @@ const sizeSchema: Schema = new Schema<Isize>({
 const menuSchema: Schema = new Schema<Imenu>({
   name: { type: String, required: true },
   category: { type: String, required: true },
-  tastyTag: { type: String },
   mealTime: { type: String },
   description: { type: String },
   size: [sizeSchema],
