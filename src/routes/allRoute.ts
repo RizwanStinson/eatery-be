@@ -1,7 +1,7 @@
 import { Router } from "express";
-// import userRouter from "./userRoute/userRoute";
-// import getProfileRouter from "./userRoute/getProfile";
-// import posRouter from "./posRoute/posroute";
+import userRouter from "./userRoute/userRoute";
+import getProfileRouter from "./userRoute/getProfile";
+import posRouter from "./posRoute/posroute";
 import newIngredientRoute from './inventoryRoute/ingredientRoute';
 import stockRoute from './inventoryRoute/stockRoute';
 import routerMenu from './menuRoute/menuRoute';
