@@ -114,31 +114,30 @@ export const deleteOrder = async (req: Request, res: Response) => {
 
 const updateIngredients = async (menuItems: any[]) => {
   try {
-    for (const item of menuItems) {
-      // Assuming each `menuItem` has a list of ingredients and their quantities
-      const ingredients = item.ingredients; // [{ name: 'Tomato', quantity: 2 }, ...]
+    for (const menuItem of menuItems) {
+      const { ingredients } = menuItem;
 
       for (const ingredient of ingredients) {
-        const { name } = ingredient;
-
-        // Find the ingredient in the inventory
+        const { name, properties } = ingredient;
+        
+       
         const inventoryItem = await inventory.findOne({ ingredient: name });
 
         if (inventoryItem) {
-          // Update prevStock with currentStock without modifying currentStock
-          inventoryItem.prevStock = inventoryItem.currentStock;
-
-          // Save the updated inventory item
+          
+          const prevStock = typeof inventoryItem.prevStock === 'number' ? inventoryItem.prevStock : 0;          
+          const newPrevStock = prevStock - properties.quantity;
+          
+          inventoryItem.prevStock = newPrevStock >= 0 ? newPrevStock : 0;
           await inventoryItem.save();
+          
         } else {
-          console.log(`Ingredient ${name} not found in inventory`);
-          // Handle the case when the ingredient is not found in the inventory
+          console.warn(`Ingredient ${name} not found in inventory.`);
         }
       }
     }
   } catch (error) {
-    console.error("Error updating ingredients:", error);
-    throw new Error("Failed to update ingredients");
+    console.error("Error updating ingredients in inventory:", error);
   }
 };
 
