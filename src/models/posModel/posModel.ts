@@ -15,13 +15,14 @@ const AddOnSchema = new Schema({
   name: { type: String, required: true },
   quantity: { type: Number, required: true },
   unit: { type: String, required: true },
-  addonPrice: { type: Number, required: true }, // Added addOn price
+  addonPrice: { type: Number, required: true },
 });
 
 const MenuSchema = new Schema({
   itemName: { type: String, required: true },
   quantity: { type: Number, required: true },
-  selectedSize: { type: String, required: true }, // Changed size to string
+  selectedSize: { type: String, required: true },
+  unitPrice: { type: Number, required: true },
   ingredients: { type: [IngredientSchema], required: true },
   sellingPrice: { type: Number, required: true },
   addOns: { type: [AddOnSchema], required: true },
