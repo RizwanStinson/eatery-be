@@ -10,7 +10,7 @@ export async function signup(req: Request, res: Response) {
   const {
     firstName,
     lastName,
-    organizationName, // Use organizationName
+    organizationName,
     userType,
     email,
     phone,

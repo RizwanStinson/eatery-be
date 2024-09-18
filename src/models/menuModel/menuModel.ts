@@ -1,12 +1,14 @@
-import mongoose, { Schema } from "mongoose";
-import {
-  Imenu,
-  Isize,
-  IaddOn,
-  Iingredient,
-} from "../../interfaces/inventoryInterface/interfaces";
+import mongoose, { Schema, Document } from "mongoose";
 
-const ingredientSchema: Schema = new Schema<Iingredient>({
+export interface Iingredient extends Document {
+  name: string;
+  properties: {
+    quantity: number;
+    unit: string;
+  };
+}
+
+const ingredientSchema = new Schema<Iingredient>({
   name: { type: String, required: true },
   properties: {
     quantity: { type: Number, required: true },
@@ -14,13 +16,29 @@ const ingredientSchema: Schema = new Schema<Iingredient>({
   },
 });
 
-const addOnSchema: Schema = new Schema<IaddOn>({
+export interface IaddOn extends Document {
+  name: string;
+  quantity: number;
+  unit: string;
+  addonPrice: number;
+}
+
+const addOnSchema = new Schema<IaddOn>({
   name: { type: String, required: true },
   quantity: { type: Number, required: true },
   unit: { type: String, required: true },
+  addonPrice: { type: Number, required: true },
 });
 
-const sizeSchema: Schema = new Schema<Isize>({
+export interface Isize extends Document {
+  sizeName: string;
+  ingredients: Iingredient[];
+  preparationTime: number;
+  sellingPrice: number;
+  addOns: IaddOn[];
+}
+
+const sizeSchema = new Schema<Isize>({
   sizeName: { type: String, required: true },
   ingredients: [ingredientSchema],
   preparationTime: { type: Number, required: true },
@@ -28,15 +46,33 @@ const sizeSchema: Schema = new Schema<Isize>({
   addOns: [addOnSchema],
 });
 
-const menuSchema: Schema = new Schema<Imenu>({
+export interface Imenu extends Document {
+  name: string;
+  category: string;
+  tastyTag?: string;
+  mealTime?: string;
+  description?: string;
+  size: Isize[];
+  quantity: number;
+  totalPrice: number;
+  organization: mongoose.Types.ObjectId;
+}
+
+const menuSchema = new Schema<Imenu>({
   name: { type: String, required: true },
   category: { type: String, required: true },
   tastyTag: { type: String },
   mealTime: { type: String },
   description: { type: String },
   size: [sizeSchema],
+  quantity: { type: Number, required: true },
+  totalPrice: { type: Number, required: true },
+  organization: {
+    type: Schema.Types.ObjectId,
+    ref: "Organization",
+    required: true,
+  },
 });
 
-const menu = mongoose.model("menu", menuSchema);
-
-export default menu;
+const Menu = mongoose.model<Imenu>("Menu", menuSchema);
+export default Menu;

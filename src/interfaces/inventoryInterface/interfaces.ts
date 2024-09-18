@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 
+
 export interface Iaddingredient {
   name: string;
   unit: string;
@@ -52,6 +53,7 @@ export interface IaddOn {
   name: string;
   quantity: number;
   unit: string;
+  addonPrice: number;
 }
 
 export interface Isize {
@@ -69,4 +71,7 @@ export interface Imenu {
   mealTime: string;
   description: string;
   size: Isize[];
+  quantity: number;
+  totalPrice: number;
+  organization: Types.ObjectId;
 }
