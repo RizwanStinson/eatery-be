@@ -1,26 +1,22 @@
-import { format } from 'date-fns';
 import { Request, Response } from 'express';
 import fs from 'fs/promises';
 import path from 'path';
 import inventory from '../../models/inventoryModel/inventoryModel';
 import OrderIngredients from '../../models/inventoryModel/orderIngredients';
 import order from '../../models/inventoryModel/stockModel';
+const { addDays } = require('date-fns');
 
 const stockController = async (req: Request, res: Response) => {
   try {
-    // Load vendor data from JSON file
     const filePath = path.join(__dirname, '../../../vendorList.json');
     const jsonData = await fs.readFile(filePath, 'utf8');
     const dummyData = JSON.parse(jsonData);
 
-    // Create new order based on request body
     const { ingredients, cost } = req.body;
     const newOrder = await OrderIngredients.create({ ingredients, cost });
 
-    // Array to store updated inventory items
     const updatedInventoryItems = [];
 
-    // Loop through each ingredient in the new order
     for (const ingredient of newOrder.ingredients) {
       const {
         ingredient: ingredientName,
@@ -29,47 +25,44 @@ const stockController = async (req: Request, res: Response) => {
         deliveryDate,
       } = ingredient;
 
-      // Match the ingredient from the vendor data (dummyData)
       const matchedItem = dummyData.find(
         (item: { itemName: string }) => item.itemName === ingredientName
       );
 
       if (matchedItem) {
-        // Find the corresponding inventory item by name
         let updateInventory = await inventory.findOne({
           ingredient: ingredientName,
         });
 
         if (updateInventory) {
-          // Update inventory fields based on the matched data and order
-
           updateInventory.prevStock =
             (updateInventory.prevStock as number) + quantity;
 
+          // updateInventory.prevStock =updateInventory.newStock
+
           // const prev = updateInventory.prevStock as number;
           // const sum = prev + quantity;
-          updateInventory.prevExpiary = updateInventory.newStockExpiry;
+          updateInventory.prevExpiry = updateInventory.newStockExpiry;
 
           updateInventory.currentStock =
             (updateInventory.prevStock as number) + quantity;
+          // updateInventory.currentStock =
+          //   (updateInventory.currentStock as number) + quantity;
           updateInventory.newStock = quantity;
-          updateInventory.newStockExpiry = format(
-            new Date(deliveryDate),
-            'MM/dd/yyyy'
-          );
+          updateInventory.newStockExpiry = addDays(new Date(deliveryDate), 4);
           updateInventory.unit = unit;
           updateInventory.cost = matchedItem.price;
-
-          await updateInventory.save();
+          (updateInventory.incomingStock = new Date(deliveryDate)),
+            await updateInventory.save();
         } else {
-          // Create new inventory item if it doesn't exist
           updateInventory = await inventory.create({
             ingredient: ingredientName,
             currentStock: quantity,
             unit,
             cost: matchedItem.price,
             newStock: quantity,
-            newStockExpiry: format(new Date(deliveryDate), 'MM/dd/yyyy'),
+            newStockExpiry: addDays(new Date(deliveryDate), 4),
+            incomingStock: new Date(deliveryDate),
           });
         }
         updatedInventoryItems.push(updateInventory);
@@ -82,7 +75,6 @@ const stockController = async (req: Request, res: Response) => {
       }
     }
 
-    // Save the new order to the stock order model
     const recentOrder = await order.create({
       ingredients: newOrder.ingredients,
       cost: newOrder.cost,
