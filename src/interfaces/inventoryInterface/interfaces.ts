@@ -50,6 +50,10 @@ export interface IaddOn {
   addonPrice: number;
 }
 
+export interface ImealTime {
+  mealtime: string;
+}
+
 export interface Isize {
   sizeName: string;
   ingredients: Iingredient[];
@@ -61,7 +65,7 @@ export interface Isize {
 export interface Imenu {
   name: string;
   category: string;
-  mealTime: string;
+  mealTime: ImealTime[];
   description: string;
   image: string;
   size: Isize[];

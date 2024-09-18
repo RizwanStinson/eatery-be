@@ -5,6 +5,7 @@ import {
   IaddOn,
   Iingredient,
   Isize,
+  ImealTime,
 } from "../../interfaces/inventoryInterface/interfaces";
 
 const menuController = async (req: Request, res: Response) => {
@@ -12,7 +13,9 @@ const menuController = async (req: Request, res: Response) => {
     const menuController: Imenu = {
       name: req.body.name,
       category: req.body.category,
-      mealTime: req.body.mealTime,
+      mealTime: req.body.mealTime.map((mealtime: ImealTime) => ({
+        mealtime: mealtime.mealtime,
+      })),
       description: req.body.description,
       image: req.body.image,
       size: req.body.size.map((size: Isize) => ({

@@ -25,15 +25,19 @@ const MenuSchema = new Schema({
   ingredients: { type: [IngredientSchema], required: true },
   sellingPrice: { type: Number, required: true },
   addOns: { type: [AddOnSchema], required: true },
-  
 });
 
-const POSSchema = new Schema({
-  tableNo: { type: Number, required: true },
-  tableStatus: { type: String, required: true },
-  menuItems: { type: [MenuSchema], required: true },
-  preparationTime: { type: Number, required: true },
-  totalPrice: { type: Number, required: true },
-});
+const POSSchema = new Schema(
+  {
+    tableNo: { type: Number, required: true },
+    tableStatus: { type: String, required: true },
+    menuItems: { type: [MenuSchema], required: true },
+    preparationTime: { type: Number, required: true },
+    totalPrice: { type: Number, required: true },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 export const POS = model<IPos>("POS", POSSchema);

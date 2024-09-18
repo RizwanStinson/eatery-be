@@ -2,6 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import {
   Imenu,
   Isize,
+  ImealTime,
   IaddOn,
   Iingredient,
 } from "../../interfaces/inventoryInterface/interfaces";
@@ -21,6 +22,10 @@ const addOnSchema: Schema = new Schema<IaddOn>({
   addonPrice: { type: Number, required: true },
 });
 
+const mealTimeSchema: Schema = new Schema<ImealTime>({
+  mealtime: { type: String, required: true },
+});
+
 const sizeSchema: Schema = new Schema<Isize>({
   sizeName: { type: String, required: true },
   ingredients: [ingredientSchema],
@@ -32,9 +37,9 @@ const sizeSchema: Schema = new Schema<Isize>({
 const menuSchema: Schema = new Schema<Imenu>({
   name: { type: String, required: true },
   category: { type: String, required: true },
-  mealTime: { type: String },
+  mealTime: [mealTimeSchema],
   description: { type: String },
-  image: {type: String},
+  image: { type: String },
   size: [sizeSchema],
 });
 
