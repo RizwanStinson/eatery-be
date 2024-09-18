@@ -16,6 +16,7 @@ export interface Idetails {
   newStock: number;
   newStockExpiry: Date;
   capacity: number;
+  incomingStock:Date
 }
 
 export interface Idummy {

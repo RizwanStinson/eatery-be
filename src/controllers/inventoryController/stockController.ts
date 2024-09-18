@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { Request, Response } from 'express';
 import fs from 'fs/promises';
 import path from 'path';
@@ -41,13 +42,24 @@ const stockController = async (req: Request, res: Response) => {
 
         if (updateInventory) {
           // Update inventory fields based on the matched data and order
-          updateInventory.prevStock = updateInventory.currentStock;
+
+          updateInventory.prevStock =
+            (updateInventory.prevStock as number) + quantity;
+
+          // const prev = updateInventory.prevStock as number;
+          // const sum = prev + quantity;
           updateInventory.prevExpiary = updateInventory.newStockExpiry;
-          updateInventory.currentStock = quantity;
+
+          updateInventory.currentStock =
+            (updateInventory.prevStock as number) + quantity;
           updateInventory.newStock = quantity;
-          updateInventory.newStockExpiry = new Date(deliveryDate);
+          updateInventory.newStockExpiry = format(
+            new Date(deliveryDate),
+            'MM/dd/yyyy'
+          );
           updateInventory.unit = unit;
           updateInventory.cost = matchedItem.price;
+
           await updateInventory.save();
         } else {
           // Create new inventory item if it doesn't exist
@@ -57,7 +69,7 @@ const stockController = async (req: Request, res: Response) => {
             unit,
             cost: matchedItem.price,
             newStock: quantity,
-            newStockExpiry: new Date(deliveryDate),
+            newStockExpiry: format(new Date(deliveryDate), 'MM/dd/yyyy'),
           });
         }
         updatedInventoryItems.push(updateInventory);
@@ -90,5 +102,4 @@ const stockController = async (req: Request, res: Response) => {
     }
   }
 };
-
 export default stockController;

@@ -11,6 +11,7 @@ const inventorySchema: Schema = new Schema<Idetails>({
   newStock: { type: Number, default: 0 },
   newStockExpiry: { type: Date, default: null },
   capacity: { type: Number },
+  incomingStock:{type:Date}
 });
 
 const inventory = mongoose.model("Inventory", inventorySchema);
