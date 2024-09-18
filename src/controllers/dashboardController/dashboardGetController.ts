@@ -59,10 +59,7 @@ export const getNumberOfOrdersForEachDayInLastSevenDays = async (
 
     console.log("Orders for each day in the last 7 days:", ordersPerDay);
 
-    return res.status(200).json({
-      success: true,
-      ordersPerDay,
-    });
+    return res.status(200).json(ordersPerDay);
   } catch (error) {
     console.error(
       "Error fetching orders for each day in the last 7 days:",
@@ -145,41 +142,23 @@ export const getTotalRevenueForToday = async (req: Request, res: Response) => {
 export const getRevenueForLastSevenDays = async (
   req: Request,
   res: Response
-) => {
+): Promise<Response> => {
   try {
-    // Get the start of 7 days ago
-    const startOfSevenDaysAgo = startOfDay(subDays(new Date(), 6));
-    const endOfToday = endOfDay(new Date());
-
-    // Find orders created between the start of 7 days ago and end of today
-    const orders = await POS.find({
-      createdAt: {
-        $gte: startOfSevenDaysAgo,
-        $lte: endOfToday,
-      },
-    });
-
-    if (!orders || orders.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No orders found in the last 7 days" });
-    }
-
-    // Initialize an object to store revenue per day
-    let revenueByDate: Record<string, number> = {};
+    const today = new Date();
+    const revenuePerDay = [];
 
     // Loop through the past 7 days
     for (let i = 0; i < 7; i++) {
-      const currentDay = subDays(new Date(), i);
-      const startOfCurrentDay = startOfDay(currentDay);
-      const endOfCurrentDay = endOfDay(currentDay);
+      const startOfDayCurrent = startOfDay(subDays(today, i));
+      const endOfDayCurrent = endOfDay(subDays(today, i));
 
-      // Filter orders for the current day
-      const ordersForDay = orders.filter(
-        (order) =>
-          order.createdAt >= startOfCurrentDay &&
-          order.createdAt <= endOfCurrentDay
-      );
+      // Find all orders for the current day
+      const ordersForDay = await POS.find({
+        createdAt: {
+          $gte: startOfDayCurrent,
+          $lte: endOfDayCurrent,
+        },
+      });
 
       // Calculate total revenue for the current day
       let totalRevenueForDay = 0;
@@ -197,17 +176,90 @@ export const getRevenueForLastSevenDays = async (
         });
       });
 
-      // Store the revenue in the format "YYYY-MM-DD"
-      revenueByDate[startOfCurrentDay.toISOString().split("T")[0]] =
-        totalRevenueForDay;
+      // Push the result for the current day in the format { date: YYYY-MM-DD, revenue: total }
+      revenuePerDay.push({
+        date: startOfDayCurrent.toISOString().split("T")[0], // format as YYYY-MM-DD
+        revenue: totalRevenueForDay,
+      });
     }
 
-    return res.status(200).json(revenueByDate);
+    console.log("Revenue for each day in the last 7 days:", revenuePerDay);
+
+    return res.status(200).json(revenuePerDay);
   } catch (error) {
     console.error("Error calculating revenue for the last 7 days:", error);
-    return res.status(500).json({ error: "Internal server error" });
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
   }
 };
+
+// export const getRevenueForLastSevenDays = async (
+//   req: Request,
+//   res: Response
+// ) => {
+//   try {
+//     // Get the start of 7 days ago
+//     const startOfSevenDaysAgo = startOfDay(subDays(new Date(), 6));
+//     const endOfToday = endOfDay(new Date());
+
+//     // Find orders created between the start of 7 days ago and end of today
+//     const orders = await POS.find({
+//       createdAt: {
+//         $gte: startOfSevenDaysAgo,
+//         $lte: endOfToday,
+//       },
+//     });
+
+//     if (!orders || orders.length === 0) {
+//       return res
+//         .status(404)
+//         .json({ message: "No orders found in the last 7 days" });
+//     }
+
+//     // Initialize an object to store revenue per day
+//     let revenueByDate: Record<string, number> = {};
+
+//     // Loop through the past 7 days
+//     for (let i = 0; i < 7; i++) {
+//       const currentDay = subDays(new Date(), i);
+//       const startOfCurrentDay = startOfDay(currentDay);
+//       const endOfCurrentDay = endOfDay(currentDay);
+
+//       // Filter orders for the current day
+//       const ordersForDay = orders.filter(
+//         (order) =>
+//           order.createdAt >= startOfCurrentDay &&
+//           order.createdAt <= endOfCurrentDay
+//       );
+
+//       // Calculate total revenue for the current day
+//       let totalRevenueForDay = 0;
+
+//       ordersForDay.forEach((order) => {
+//         order.menuItems.forEach((item) => {
+//           let itemTotal = item.sellingPrice * item.quantity;
+
+//           // Add the price for each add-on
+//           item.addOns.forEach((addon) => {
+//             itemTotal += addon.addonPrice * addon.quantity;
+//           });
+
+//           totalRevenueForDay += itemTotal;
+//         });
+//       });
+
+//       // Store the revenue in the format "YYYY-MM-DD"
+//       revenueByDate[startOfCurrentDay.toISOString().split("T")[0]] =
+//         totalRevenueForDay;
+//     }
+
+//     return res.status(200).json(revenueByDate);
+//   } catch (error) {
+//     console.error("Error calculating revenue for the last 7 days:", error);
+//     return res.status(500).json({ error: "Internal server error" });
+//   }
+// };
 
 // export const getTop5SellingItemsForToday = async (
 //   req: Request,
