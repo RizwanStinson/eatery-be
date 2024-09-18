@@ -17,7 +17,7 @@ router.use("/", posRouter);
 router.use('/ingredient', newIngredientRoute);
 router.use('/stock', stockRoute);
 
-//menu 
+//menu
 router.use('/menu', routerMenu);
 
 

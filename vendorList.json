@@ -1,28 +1,28 @@
 [
   {
     "itemName": "Beef Patty",
-    "unit": "pcs",
+    "unit": "k.G",
     "expiryDate": "2024-09-13",
     "price": 2.5,
     "stock": 100
   },
   {
     "itemName": "Lettuce",
-    "unit": "leaves",
+    "unit": "K.G",
     "expiryDate": "2024-09-21",
     "price": 1.2,
     "stock": 100
   },
   {
     "itemName": "Tomato",
-    "unit": "slices",
+    "unit": "K.G",
     "expiryDate": "2024-09-16",
     "price": 3.0,
     "stock": 100
   },
   {
     "itemName": "Salami",
-    "unit": "Pieces",
+    "unit": "K.G",
     "expiryDate": "2024-09-21",
     "price": 1.2,
     "stock": 100
