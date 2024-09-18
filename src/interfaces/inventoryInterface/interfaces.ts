@@ -63,5 +63,6 @@ export interface Imenu {
   category: string;
   mealTime: string;
   description: string;
+  image: string;
   size: Isize[];
 }

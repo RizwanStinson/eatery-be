@@ -14,6 +14,7 @@ const menuController = async (req: Request, res: Response) => {
       category: req.body.category,
       mealTime: req.body.mealTime,
       description: req.body.description,
+      image: req.body.image,
       size: req.body.size.map((size: Isize) => ({
         sizeName: size.sizeName,
         ingredients: size.ingredients.map((ingredient: Iingredient) => ({

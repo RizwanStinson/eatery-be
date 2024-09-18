@@ -34,6 +34,7 @@ const menuSchema: Schema = new Schema<Imenu>({
   category: { type: String, required: true },
   mealTime: { type: String },
   description: { type: String },
+  image: {type: String},
   size: [sizeSchema],
 });
 
