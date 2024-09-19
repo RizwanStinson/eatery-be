@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import User from "../../models/userModel/userModel";
-import Organization from "../../models/organizations/organizationModel"; // Import Organization model
+import Organization from "../../models/organizations/organizationModel";
 import { compare, hash } from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -39,7 +39,7 @@ export async function signup(req: Request, res: Response) {
     const newUser = await User.create({
       firstName,
       lastName,
-      organization: org._id, 
+      organization: org._id,
       userType,
       email,
       phone,
@@ -86,7 +86,6 @@ export async function login(req: Request, res: Response) {
         .send({ error: "403", message: "Invalid user type." });
     }
 
-    // Generate token
     const token = jwt.sign(
       {
         userId: user._id,

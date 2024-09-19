@@ -11,8 +11,6 @@ export const authMiddleware = (
 ) => {
   return async (req: ExtendedRequest, res: Response, next: NextFunction) => {
     try {
-      console.log("Headers received:", req.headers);
-
       const authHeaders = req.headers.authorization;
       if (!authHeaders) {
         return res
@@ -57,6 +55,7 @@ export const authMiddleware = (
           .status(403)
           .json({ message: "Forbidden: You are not authorized" });
       }
+
       if (
         requiredOrganization &&
         user.organization.toString() !== requiredOrganization

@@ -17,7 +17,7 @@ const AddOnSchema = new Schema({
 
 const MenuSchema = new Schema({
   itemName: { type: String, required: true },
-  //category: { type: String, required: true },
+  category: { type: String },
   selectedSize: { type: String, required: true },
   ingredients: { type: [IngredientSchema], required: true },
   preparationTime: { type: Number, required: true },

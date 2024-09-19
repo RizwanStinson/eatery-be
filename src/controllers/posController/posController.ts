@@ -1,17 +1,23 @@
-import { Request, Response } from "express";
-import POS from "../../models/posModel/posModel"
-import inventory from "../../models/inventoryModel/inventoryModel";
+import { Response } from "express";
+import POS from "../../models/posModel/posModel";
 import { IPos } from "../../interfaces/posInterface";
+import { ExtendedRequest } from "../../interfaces/extendedRequest";
 
-export const createOrder = async (req: Request, res: Response) => {
+export const createOrder = async (req: ExtendedRequest, res: Response) => {
   try {
     console.log("Request body:", req.body);
+
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({ error: "User not authenticated" });
+    }
+
     const orderData: IPos = req.body;
     if (!orderData.tableNo) {
       return res.status(400).json({ error: "Table number is required" });
     }
 
-    const newOrder = new POS(orderData);
+    const newOrder = new POS({ ...orderData, organization: user.organization });
     await newOrder.save();
 
     res.status(201).json(newOrder);
@@ -21,15 +27,24 @@ export const createOrder = async (req: Request, res: Response) => {
   }
 };
 
-export const getOrderByTable = async (req: Request, res: Response) => {
+export const getOrderByTable = async (req: ExtendedRequest, res: Response) => {
   const { tableNO } = req.params;
-  const { organizationId } = req.body; 
 
   try {
-    const order = await POS.findOne({ tableNo: Number(tableNO), organization: organizationId });
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({ error: "User not authenticated" });
+    }
+
+    const order = await POS.findOne({
+      tableNo: Number(tableNO),
+      organization: user.organization,
+    });
 
     if (!order) {
-      return res.status(404).json({ message: "Order not found for this table" });
+      return res
+        .status(404)
+        .json({ message: "Order not found for this table" });
     }
 
     return res.status(200).json(order);
@@ -39,8 +54,7 @@ export const getOrderByTable = async (req: Request, res: Response) => {
   }
 };
 
-
-export const getAllOrders = async (req: Request, res: Response) => {
+export const getAllOrders = async (req: ExtendedRequest, res: Response) => {
   try {
     const orders = await POS.find();
 
@@ -54,8 +68,7 @@ export const getAllOrders = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-
-const updateIngredients = async (menuItems: any[]) => {
+/* const updateIngredients = async (menuItems: any[]) => {
   try {
     for (const menuItem of menuItems) {
       const { ingredients } = menuItem;
@@ -83,4 +96,4 @@ const updateIngredients = async (menuItems: any[]) => {
   } catch (error) {
     console.error("Error updating ingredients in inventory:", error);
   }
-};
+}; */
