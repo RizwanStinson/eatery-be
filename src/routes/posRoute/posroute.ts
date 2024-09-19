@@ -1,4 +1,4 @@
-import express from "express";
+/* import express from "express";
 import {
   createOrder,
   getOrderByTable,
@@ -15,5 +15,29 @@ posRouter.get("/orders/:tableNO", authMiddleware(["Admin", "POSManager"]), getOr
 posRouter.put("/orders/:tableNO/status", authMiddleware(["Admin", "POSManager"]), updateTableStatus);
 posRouter.get("/orders", authMiddleware(["Admin", "POSManager"]), getAllOrders);
 posRouter.delete("/orders/:tableNO", authMiddleware(["Admin", "POSManager"]), deleteOrder);
+
+export default posRouter;
+ */
+
+import express from "express";
+import {
+  createOrder,
+  getOrderByTable,
+  getAllOrders,
+} from "../../controllers/posController/posController";
+import { authMiddleware } from "../../middlewares/auth";
+//import posController from "../../controllers/posController/posController";
+
+const posRouter = express.Router();
+
+posRouter.post("/new", createOrder);
+
+posRouter.get(
+  "/orders/:tableNO",
+  authMiddleware(["Admin", "POSManager"]),
+  getOrderByTable
+);
+
+posRouter.get("/orders", getAllOrders);
 
 export default posRouter;

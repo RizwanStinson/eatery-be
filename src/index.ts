@@ -4,8 +4,6 @@ import express, { Application, Request, Response } from 'express';
 import connectMongoose from './db';
 import router from './routes/allRoute';
 import newIngredientRoute from './routes/inventoryRoute/ingredientRoute';
-import stockRoute from './routes/inventoryRoute/stockRoute';
-import routerMenu from './routes/menuRoute/menuRoute';
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
