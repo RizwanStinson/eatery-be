@@ -35,20 +35,26 @@ const stockController = async (req: Request, res: Response) => {
         });
 
         if (updateInventory) {
-          updateInventory.prevStock =
+
+          updateInventory.newStock = updateInventory.newStock as number + quantity;
+
+          if( updateInventory.prevStock ===0){
+            updateInventory.prevStock = updateInventory.newStock;
+          }
+
             (updateInventory.prevStock as number) + quantity;
 
           // updateInventory.prevStock =updateInventory.newStock
 
           // const prev = updateInventory.prevStock as number;
           // const sum = prev + quantity;
-          updateInventory.prevExpiry = updateInventory.newStockExpiry;
+          updateInventory.prevExpiary = updateInventory.newStockExpiry;
 
           updateInventory.currentStock =
-            (updateInventory.prevStock as number) + quantity;
+            (updateInventory.prevStock as number) + (updateInventory.newStock as number);
           // updateInventory.currentStock =
           //   (updateInventory.currentStock as number) + quantity;
-          updateInventory.newStock = quantity;
+
           updateInventory.newStockExpiry = addDays(new Date(deliveryDate), 4);
           updateInventory.unit = unit;
           updateInventory.cost = matchedItem.price;
@@ -60,8 +66,9 @@ const stockController = async (req: Request, res: Response) => {
             currentStock: quantity,
             unit,
             cost: matchedItem.price,
-            newStock: quantity,
-            newStockExpiry: addDays(new Date(deliveryDate), 4),
+            prevStock: quantity,
+            newStock: 0,
+            prevExpiary: addDays(new Date(deliveryDate), 4),
             incomingStock: new Date(deliveryDate),
           });
         }

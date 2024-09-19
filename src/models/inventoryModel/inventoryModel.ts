@@ -1,5 +1,5 @@
-import mongoose, { Schema } from "mongoose";
-import { Idetails } from "../../interfaces/inventoryInterface/interfaces";
+import mongoose, { Schema } from 'mongoose';
+import { Idetails } from '../../interfaces/inventoryInterface/interfaces';
 const inventorySchema: Schema = new Schema<Idetails>({
   ingredient: { type: String },
   currentStock: { type: Number, default: 0 },
@@ -11,9 +11,9 @@ const inventorySchema: Schema = new Schema<Idetails>({
   newStock: { type: Number, default: 0 },
   newStockExpiry: { type: Date, default: null },
   capacity: { type: Number },
-  incomingStock:{type:Date}
+  incomingStock: { type: Date },
 });
 
-const inventory = mongoose.model("Inventory", inventorySchema);
+const inventory = mongoose.model('Inventory', inventorySchema);
 
 export default inventory;

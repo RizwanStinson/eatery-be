@@ -3,7 +3,7 @@
     "itemName": "Beef Patty",
     "unit": "k.G",
     "expiryDate": "2024-09-13",
-    "price": 2.5,
+    "price": 2,
     "stock": 100
   },
   {
@@ -18,6 +18,13 @@
     "unit": "K.G",
     "expiryDate": "2024-09-16",
     "price": 3.0,
+    "stock": 100
+  },
+  {
+    "itemName": "Salami",
+    "unit": "K.G",
+    "expiryDate": "2024-09-21",
+    "price": 1.2,
     "stock": 100
   },
   {

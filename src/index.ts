@@ -8,12 +8,13 @@ import stockRoute from './routes/inventoryRoute/stockRoute';
 import routerMenu from './routes/menuRoute/menuRoute';
 
 import connectMongoose from './db';
+import { expiredItems } from './scheduleJobs/expiredItems';
 dotenv.config();
 const app: Application = express();
 app.use(json());
 const PORT = process.env.PORT || 6000;
 app.use(cors({ origin: '*' }));
-
+expiredItems;
 async function dbConnect() {
   try {
     await connectMongoose();
