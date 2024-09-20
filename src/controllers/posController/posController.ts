@@ -25,25 +25,6 @@ export const createOrder = async (req: Request, res: Response) => {
   }
 };
 
-export const getOrderByTable = async (req: Request, res: Response) => {
-  const tableNO = Number(req.params.tableNO);
-
-  try {
-    const order = await POS.findOne({ tableNO });
-
-    if (!order) {
-      return res
-        .status(404)
-        .json({ message: "Order not found for this table" });
-    }
-
-    return res.status(200).json(order);
-  } catch (error) {
-    console.error("Error retrieving order:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
-};
-
 export const getAllOrders = async (req: Request, res: Response) => {
   try {
     const orders = await POS.find();
