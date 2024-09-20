@@ -73,10 +73,10 @@ const stockController = async (req: Request, res: Response) => {
           });
         }
         updatedInventoryItems.push(updateInventory);
-        console.log(
-          `Updated inventory for ${ingredientName}:`,
-          updateInventory
-        );
+        // console.log(
+        //   `Updated inventory for ${ingredientName}:`,
+        //   updateInventory
+        // );
       } else {
         console.log(`No match found for ingredient: ${ingredientName}`);
       }
@@ -93,7 +93,7 @@ const stockController = async (req: Request, res: Response) => {
       updatedInventoryItems,
     });
   } catch (error) {
-    console.error('Error processing the order and updating inventory:', error);
+    // console.error('Error processing the order and updating inventory:', error);
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });
     } else {
