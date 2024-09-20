@@ -18,10 +18,7 @@ export const createOrder = async (req: Request, res: Response) => {
 
     updateIngredients(newOrder.menuItems);
 
-    return res.status(201).json({
-      message: "Order created successfully",
-      order: newOrder,
-    });
+    return res.status(201).json(newOrder);
   } catch (error) {
     console.error("Error creating order:", error);
     return res.status(500).json({ error: "Internal server error" });
