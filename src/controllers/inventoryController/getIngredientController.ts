@@ -8,7 +8,7 @@ const getIngredientController = async (req: ExtendedRequest, res: Response) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const organization = req.user.organization; 
+    const organization = req.user.organizationName; 
     console.log("User's organization:", organization);
 
     const ingredients = await newIngredient.find({ organization }); 

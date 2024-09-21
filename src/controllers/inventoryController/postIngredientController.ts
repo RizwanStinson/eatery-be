@@ -13,7 +13,7 @@ const postIngredientController = async (
     }
 
     const user = req.user;
-    const organization = user.organization;
+    const organization = user.organizationName;
     console.log("User Info:", user);
 
     const Ingredient = {

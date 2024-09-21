@@ -19,10 +19,10 @@ export async function signup(req: Request, res: Response) {
 
   try {
     let org = await Organization.findOne({
-      name: new RegExp(`^${organizationName}$`, "i"),
+      organizationName: organizationName,
     });
     if (!org) {
-      org = await Organization.create({ name: organizationName });
+      org = await Organization.create({ organizationName: organizationName });
       console.log(`Created new organization: ${organizationName}`);
     }
 
@@ -39,7 +39,7 @@ export async function signup(req: Request, res: Response) {
     const newUser = await User.create({
       firstName,
       lastName,
-      organization: org._id,
+      organizationName,
       userType,
       email,
       phone,
@@ -73,8 +73,8 @@ export async function login(req: Request, res: Response) {
         .status(401)
         .send({ error: "401", message: "Email or password is incorrect." });
     }
-    const org = await Organization.findById(user.organization);
-    if (!org || org.name !== organizationName) {
+    const org = await Organization.findById(user.organizationName);
+    if (!org || org.organizationName !== organizationName) {
       return res
         .status(403)
         .send({ error: "403", message: "Invalid organization." });

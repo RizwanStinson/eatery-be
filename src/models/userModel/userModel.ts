@@ -1,6 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { IUser } from "../../interfaces/userInterface";
-import { IOrganization } from "../organizations/organizationModel";
 
 const allowedUserTypes = [
   "Admin",
@@ -18,8 +17,8 @@ const userSchema = new Schema<IUser>({
     type: String,
     required: true,
   },
-  organization: {
-    type: Schema.Types.ObjectId,
+  organizationName: {
+    type: String,
     ref: "Organization",
     required: true,
   },
@@ -34,7 +33,7 @@ const userSchema = new Schema<IUser>({
     unique: true,
   },
   phone: {
-    type: Number,
+    type: String,
     required: true,
   },
   password: {

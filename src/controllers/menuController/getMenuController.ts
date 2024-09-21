@@ -8,7 +8,7 @@ const getMenuController = async (req: ExtendedRequest, res: Response) => {
       return res.status(401).json({ message: "User not authenticated" });
     }
     
-    const organization = req.user.organization;
+    const organization = req.user.organizationName;
     const allMenu = await Menu.find({ organization: organization });
     res.status(200).json(allMenu);
   } catch (error) {

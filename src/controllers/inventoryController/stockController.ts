@@ -11,7 +11,7 @@ const stockController = async (req: ExtendedRequest, res: Response) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const organization = req.user.organization;
+    const organization = req.user.organizationName;
 
     const filePath = path.join(__dirname, "../../../vendorList.json");
     const jsonData = fs.readFileSync(filePath, "utf8");

@@ -3,13 +3,14 @@ import dotenv from 'dotenv';
 import express, { Application, Request, Response } from 'express';
 import connectMongoose from './db';
 import router from './routes/allRoute';
-import newIngredientRoute from './routes/inventoryRoute/ingredientRoute';
+import cors from 'cors';
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
 const app: Application = express();
-app.use(json());
+app.use(express.json());
+app.use(cors());
 app.use(router);
 
 app.get('/', (req: Request, res: Response) => {

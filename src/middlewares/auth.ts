@@ -58,7 +58,7 @@ export const authMiddleware = (
 
       if (
         requiredOrganization &&
-        user.organization.toString() !== requiredOrganization
+        user.organizationName.toString() !== requiredOrganization
       ) {
         return res.status(403).json({
           message: "Forbidden: You are not part of the required organization",

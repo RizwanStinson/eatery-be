@@ -17,7 +17,7 @@ export const createOrder = async (req: ExtendedRequest, res: Response) => {
       return res.status(400).json({ error: "Table number is required" });
     }
 
-    const newOrder = new POS({ ...orderData, organization: user.organization });
+    const newOrder = new POS({ ...orderData, organization: user.organizationName });
     await newOrder.save();
 
     res.status(201).json(newOrder);
@@ -38,7 +38,7 @@ export const getOrderByTable = async (req: ExtendedRequest, res: Response) => {
 
     const order = await POS.findOne({
       tableNo: Number(tableNO),
-      organization: user.organization,
+      organization: user.organizationName,
     });
 
     if (!order) {

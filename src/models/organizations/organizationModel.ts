@@ -1,11 +1,11 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface IOrganization extends Document {
-  name: string;
+  organizationName: string;
 }
 
 const OrganizationSchema: Schema = new Schema({
-  name: { type: String, required: true },
+  organizationName: { type: String, required: true },
 });
 
 export default mongoose.model<IOrganization>(

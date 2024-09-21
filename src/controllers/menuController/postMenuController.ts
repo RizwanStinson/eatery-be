@@ -15,7 +15,7 @@ const menuController = async (req: ExtendedRequest, res: Response) => {
       return res.status(401).json({ message: "User not authenticated" });
     }
 
-    const organizationId = req.user.organization;
+    const organizationId = req.user.organizationName;
     if (!mongoose.Types.ObjectId.isValid(organizationId.toString())) {
       return res.status(400).json({ message: "Invalid organization ID" });
     }
