@@ -59,27 +59,28 @@ export async function login(req: Request, res: Response) {
   const { email, password, organizationName, userType } = req.body;
 
   try {
-    const user = await User.findOne({ email: email })
-      .populate("organization")
-      .exec();
+    const user = await User.findOne({ email: email });
     if (!user) {
       return res
         .status(401)
         .send({ error: "401", message: "Email or password is incorrect." });
     }
+
     const validatePass = await compare(password, user.password);
     if (!validatePass) {
       return res
         .status(401)
         .send({ error: "401", message: "Email or password is incorrect." });
     }
-    const org = await Organization.findById(user.organizationName);
-    if (!org || org.organizationName !== organizationName) {
+
+    // Validate organization name
+    if (user.organizationName !== organizationName) {
       return res
         .status(403)
         .send({ error: "403", message: "Invalid organization." });
     }
 
+    // Validate user type
     if (user.userType !== userType) {
       return res
         .status(403)
@@ -90,7 +91,7 @@ export async function login(req: Request, res: Response) {
       {
         userId: user._id,
         email: user.email,
-        organization: org._id,
+        organizationName: user.organizationName, // Changed to string
         userType: user.userType,
       },
       SECRET_KEY,

@@ -19,7 +19,7 @@ const userSchema = new Schema<IUser>({
   },
   organizationName: {
     type: String,
-    ref: "Organization",
+    //ref: "Organization",
     required: true,
   },
   userType: {
