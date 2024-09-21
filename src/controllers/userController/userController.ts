@@ -91,7 +91,7 @@ export async function login(req: Request, res: Response) {
       {
         userId: user._id,
         email: user.email,
-        organizationName: user.organizationName, // Changed to string
+        organizationName: user.organizationName,
         userType: user.userType,
       },
       SECRET_KEY,
