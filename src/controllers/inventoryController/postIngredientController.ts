@@ -28,21 +28,27 @@
 // };
 // export default addIngredientController;
 
-import { Request, Response } from 'express';
+import { Response } from 'express';
+import { ExtendedRequest } from '../../interfaces/extendedRequest';
 import inventory from '../../models/inventoryModel/inventoryModel';
-import newIngredient from '../../models/inventoryModel/newIngredientModel';
 
-const postIngredientController = async (req: Request, res: Response) => {
+const postIngredientController = async (
+  req: ExtendedRequest,
+  res: Response
+) => {
   try {
+    const { user } = req;
     const Ingredient = {
       ingredient: req.body.ingredient,
       unit: req.body.unit,
       poo: req.body.poo,
       capacity: req.body.capacity,
+      user: user?._id,
     };
     console.log('new Ingredient: ', Ingredient);
-    const createIngredient = await newIngredient.create(Ingredient);
+
     const Inventory = await inventory.create(Ingredient);
+
     res.status(200).json({ Inventory });
   } catch (error) {
     res.status(500);

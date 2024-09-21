@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import fs from 'fs/promises';
 import path from 'path';
+import { ExtendedRequest } from '../../interfaces/extendedRequest';
 
-export const getAllDummyVendorItems = async (req: Request, res: Response) => {
+export const getAllDummyVendorItems = async (req: ExtendedRequest, res: Response) => {
   try {
     // Load vendor data from JSON file
     const filePath = path.join(__dirname, '../../../vendorList.json');

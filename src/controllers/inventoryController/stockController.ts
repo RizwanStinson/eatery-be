@@ -4,16 +4,22 @@ import path from 'path';
 import inventory from '../../models/inventoryModel/inventoryModel';
 import OrderIngredients from '../../models/inventoryModel/orderIngredients';
 import order from '../../models/inventoryModel/stockModel';
+import { ExtendedRequest } from '../../interfaces/extendedRequest';
 const { addDays } = require('date-fns');
 
-const stockController = async (req: Request, res: Response) => {
+const stockController = async (req: ExtendedRequest, res: Response) => {
   try {
     const filePath = path.join(__dirname, '../../../vendorList.json');
     const jsonData = await fs.readFile(filePath, 'utf8');
     const dummyData = JSON.parse(jsonData);
 
+      const { user } = req;
     const { ingredients, cost } = req.body;
-    const newOrder = await OrderIngredients.create({ ingredients, cost });
+    const newOrder = await OrderIngredients.create({
+      ingredients,
+      cost,
+      user: user!._id,
+    });
 
     const updatedInventoryItems = [];
 
@@ -32,6 +38,7 @@ const stockController = async (req: Request, res: Response) => {
       if (matchedItem) {
         let updateInventory = await inventory.findOne({
           ingredient: ingredientName,
+          user: user!._id,
         });
 
         if (updateInventory) {
@@ -70,6 +77,7 @@ const stockController = async (req: Request, res: Response) => {
             newStock: 0,
             prevExpiary: addDays(new Date(deliveryDate), 4),
             incomingStock: new Date(deliveryDate),
+            user: user?._id,
           });
         }
         updatedInventoryItems.push(updateInventory);
@@ -85,6 +93,7 @@ const stockController = async (req: Request, res: Response) => {
     const recentOrder = await order.create({
       ingredients: newOrder.ingredients,
       cost: newOrder.cost,
+      user: user?._id,
     });
 
     res.status(200).json({
@@ -93,7 +102,7 @@ const stockController = async (req: Request, res: Response) => {
       updatedInventoryItems,
     });
   } catch (error) {
-    // console.error('Error processing the order and updating inventory:', error);
+    
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });
     } else {

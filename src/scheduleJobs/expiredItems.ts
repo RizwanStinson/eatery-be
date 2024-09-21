@@ -7,13 +7,13 @@ export const expiredItems = scheduleJob('0 0 * * *', () => {
 
   const handleExpiredItems = async () => {
     try {
-      // Step 1: Find expired items
+     
       const expiredItems = await inventory.find({
         prevExpiary: { $lt: new Date() },
       });
 
       if (expiredItems.length > 0) {
-        // Step 2: Add expired items to the wastage table
+
         const wastageData = expiredItems.map((item) => ({
           ingredient: item.ingredient,
           unit: item.unit,
@@ -22,14 +22,14 @@ export const expiredItems = scheduleJob('0 0 * * *', () => {
         await wastageDetails.insertMany(wastageData);
         console.log('Expired items added to wastage table:', wastageData);
 
-        // Step 3: Update expired items in inventory
+
         const updatedItems = await inventory.updateMany(
           { prevExpiary: { $lt: new Date() } },
           [
             {
               $set: {
                 prevStock: 0,
-                currentStock: '$newStock', // Use aggregation pipeline to move newStock to currentStock
+                currentStock: '$newStock',
                 prevExpiary: null,
                 incomingStock: null,
               },
@@ -38,7 +38,7 @@ export const expiredItems = scheduleJob('0 0 * * *', () => {
         );
         console.log('Expired items updated in inventory:', updatedItems);
 
-        
+
         return {
           success: true,
           message: `Expired items processed. ${expiredItems.length} items moved to wastage and updated in inventory.`,

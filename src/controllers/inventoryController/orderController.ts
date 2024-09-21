@@ -1,8 +1,10 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
+import { ExtendedRequest } from '../../interfaces/extendedRequest';
 import OrderIngredients from '../../models/inventoryModel/orderIngredients';
 
-export const orderIngredient = async (req: Request, res: Response) => {
+export const orderIngredient = async (req: ExtendedRequest, res: Response) => {
   const { ingredients, cost } = req.body;
+  const { user } = req;
 
   // Validate required fields
   if (!ingredients || !cost) {
@@ -16,9 +18,9 @@ export const orderIngredient = async (req: Request, res: Response) => {
     const newOrder = await OrderIngredients.create({
       ingredients,
       cost,
+      user: user?._id,
     });
 
-    
     // Return the created order with a success response
     return res
       .status(201)
