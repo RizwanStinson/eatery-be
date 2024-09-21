@@ -38,7 +38,7 @@ export const expiredItems = scheduleJob('0 0 * * *', () => {
         );
         console.log('Expired items updated in inventory:', updatedItems);
 
-        // Step 4: Optionally, log the result
+        
         return {
           success: true,
           message: `Expired items processed. ${expiredItems.length} items moved to wastage and updated in inventory.`,
