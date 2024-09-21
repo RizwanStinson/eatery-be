@@ -5,6 +5,7 @@ import posRouter from "./posRoute/posroute";
 import newIngredientRoute from "./inventoryRoute/ingredientRoute";
 import stockRoute from "./inventoryRoute/stockRoute";
 import routerMenu from "./menuRoute/menuRoute";
+import routerEmployee from "./allEmployeeRoute/allEmployeeRoute";
 
 const router = Router();
 router.use("/", userRouter);
@@ -17,5 +18,8 @@ router.use("/stock", stockRoute);
 
 //menu
 router.use("/menu", routerMenu);
+
+//hr
+router.use("/hr", routerEmployee);
 
 export default router;
