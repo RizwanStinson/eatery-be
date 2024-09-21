@@ -3,6 +3,6 @@ import { getAllEmployee } from "../../controllers/allEmployeeController/allEmplo
 
 const router = express.Router();
 
-router.get("/hr", getAllEmployee);
+router.get("/employee-list", getAllEmployee);
 
 export default router;
