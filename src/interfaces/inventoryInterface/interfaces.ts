@@ -65,3 +65,12 @@ export interface Imenu {
   description: string;
   size: Isize[];
 }
+
+export interface Itabledetails {
+  number: number;
+  capacity: number;
+}
+
+export interface Itable {
+  tables: Itabledetails[];
+}

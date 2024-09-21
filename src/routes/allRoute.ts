@@ -6,6 +6,7 @@ import newIngredientRoute from "./inventoryRoute/ingredientRoute";
 import stockRoute from "./inventoryRoute/stockRoute";
 import routerMenu from "./menuRoute/menuRoute";
 import dashboardRouter from "./dashboardRoute/dashboardRoute";
+import tablePOSRoute from "./tablePOSRoute/tablePosRoute";
 
 const router = Router();
 router.use("/", userRouter);
@@ -21,5 +22,8 @@ router.use("/stock", stockRoute);
 
 //menu
 router.use("/menu", routerMenu);
+
+//tablePOS
+router.use("/tablePOS", tablePOSRoute);
 
 export default router;
