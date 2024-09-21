@@ -1,7 +1,5 @@
 import { scheduleJob } from 'node-schedule';
-import inventory from '../models/inventoryModel/inventoryModel';
 
-export const expiredItems = scheduleJob('0 0 * * *', () => {
   console.log('expired items');
   const expiredItems = async () => {
     const items = await inventory.updateMany(
