@@ -2,26 +2,24 @@ import { scheduleJob } from 'node-schedule';
 import inventory from '../models/inventoryModel/inventoryModel';
 import wastageDetails from '../models/inventoryModel/wastageModel';
 
-export const expiredItems = scheduleJob('0 0 * * *', () => {
+export const expiredItems = scheduleJob('* * * * *', () => {
   console.log('Processing expired items');
 
   const handleExpiredItems = async () => {
     try {
-     
       const expiredItems = await inventory.find({
         prevExpiary: { $lt: new Date() },
       });
 
       if (expiredItems.length > 0) {
-
         const wastageData = expiredItems.map((item) => ({
           ingredient: item.ingredient,
           unit: item.unit,
           wastageDate: new Date(),
+          quantity: item.prevStock,
         }));
         await wastageDetails.insertMany(wastageData);
         console.log('Expired items added to wastage table:', wastageData);
-
 
         const updatedItems = await inventory.updateMany(
           { prevExpiary: { $lt: new Date() } },
@@ -37,7 +35,6 @@ export const expiredItems = scheduleJob('0 0 * * *', () => {
           ]
         );
         console.log('Expired items updated in inventory:', updatedItems);
-
 
         return {
           success: true,
