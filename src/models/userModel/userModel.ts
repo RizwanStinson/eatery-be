@@ -6,6 +6,7 @@ const allowedUserTypes = [
   "POSManager",
   "InventoryManager",
   "MenuManager",
+  "HRManager",
 ];
 
 const userSchema = new Schema<IUser>({
