@@ -13,12 +13,12 @@ const stockController = async (req: ExtendedRequest, res: Response) => {
     const jsonData = await fs.readFile(filePath, 'utf8');
     const dummyData = JSON.parse(jsonData);
 
-      const { user } = req;
+      // const { user } = req;
     const { ingredients, cost } = req.body;
     const newOrder = await OrderIngredients.create({
       ingredients,
       cost,
-      user: user!._id,
+      // user: user!._id,
     });
 
     const updatedInventoryItems = [];
@@ -38,7 +38,7 @@ const stockController = async (req: ExtendedRequest, res: Response) => {
       if (matchedItem) {
         let updateInventory = await inventory.findOne({
           ingredient: ingredientName,
-          user: user!._id,
+          // user: user!._id,
         });
 
         if (updateInventory) {
@@ -77,7 +77,7 @@ const stockController = async (req: ExtendedRequest, res: Response) => {
             newStock: 0,
             prevExpiary: addDays(new Date(deliveryDate), 4),
             incomingStock: new Date(deliveryDate),
-            user: user?._id,
+            // user: user?._id,
           });
         }
         updatedInventoryItems.push(updateInventory);
@@ -93,7 +93,7 @@ const stockController = async (req: ExtendedRequest, res: Response) => {
     const recentOrder = await order.create({
       ingredients: newOrder.ingredients,
       cost: newOrder.cost,
-      user: user?._id,
+      // user: user?._id,
     });
 
     res.status(200).json({
@@ -102,7 +102,7 @@ const stockController = async (req: ExtendedRequest, res: Response) => {
       updatedInventoryItems,
     });
   } catch (error) {
-    
+
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });
     } else {

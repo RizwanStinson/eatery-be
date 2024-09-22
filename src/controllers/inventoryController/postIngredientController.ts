@@ -37,13 +37,13 @@ const postIngredientController = async (
   res: Response
 ) => {
   try {
-    const { user } = req;
+    // const { user } = req;
     const Ingredient = {
       ingredient: req.body.ingredient,
       unit: req.body.unit,
       poo: req.body.poo,
       capacity: req.body.capacity,
-      user: user?._id,
+      // user: user?._id,
     };
     console.log('new Ingredient: ', Ingredient);
 
