@@ -11,7 +11,7 @@ export const createOrder = async (req: Request, res: Response) => {
       tableStatus: orderDetails.tableStatus,
       menuItems: orderDetails.menuItems,
       preparationTime: orderDetails.preparationTime,
-      totalPrice: orderDetails.totalPrice,
+      totalPrice: (orderDetails.totalPrice),
     });
 
     await newOrder.save();
