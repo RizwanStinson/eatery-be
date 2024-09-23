@@ -16,5 +16,11 @@ newIngredientRoute.get(
   authMiddleware(["Admin", "InventoryManager"]),
   getIngredientController
 );
+import { orderIngredient } from '../../controllers/inventoryController/orderController';
+
+
+newIngredientRoute.post("/addingredient", postIngredientController);
+newIngredientRoute.get("/allingredient", getIngredientController);
+newIngredientRoute.post('/order-ingredient',orderIngredient)
 
 export default newIngredientRoute;

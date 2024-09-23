@@ -1,24 +1,30 @@
 import { Schema, model } from "mongoose";
-import { IPos } from "../../interfaces/posInterface";
+import {
+  IaddOn,
+  Iingredient,
+  IingredientProperties,
+  Imenu,
+  IPos,
+} from "../../interfaces/posInterface";
 
-const IngredientPropertiesSchema = new Schema({
+const IngredientPropertiesSchema = new Schema<IingredientProperties>({
   quantity: { type: Number, required: true },
   unit: { type: String, required: true },
 });
 
-const IngredientSchema = new Schema({
+const IngredientSchema = new Schema<Iingredient>({
   name: { type: String, required: true },
   properties: { type: IngredientPropertiesSchema, required: true },
 });
 
-const AddOnSchema = new Schema({
+const AddOnSchema = new Schema<IaddOn>({
   name: { type: String, required: true },
   quantity: { type: Number, required: true },
   unit: { type: String, required: true },
   addonPrice: { type: Number, required: true },
 });
 
-const MenuSchema = new Schema({
+const MenuSchema = new Schema<Imenu>({
   itemName: { type: String, required: true },
   quantity: { type: Number, required: true },
   selectedSize: { type: String, required: true },
@@ -28,17 +34,13 @@ const MenuSchema = new Schema({
   addOns: { type: [AddOnSchema], required: true },
 });
 
-const POSSchema = new Schema(
+const POSSchema = new Schema<IPos>(
   {
     tableNo: { type: Number, required: true },
     tableStatus: { type: String, required: true },
     menuItems: { type: [MenuSchema], required: true },
     preparationTime: { type: Number, required: true },
     totalPrice: { type: Number, required: true },
-    organizationName: {
-      type: String,
-      required: true,
-    },
   },
   {
     timestamps: true,

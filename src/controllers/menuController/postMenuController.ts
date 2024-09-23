@@ -6,6 +6,7 @@ import {
   IaddOn,
   Iingredient,
   Isize,
+  ImealTime,
 } from "../../interfaces/inventoryInterface/interfaces";
 import { ExtendedRequest } from "../../interfaces/extendedRequest";
 
@@ -22,9 +23,11 @@ const menuController = async (req: ExtendedRequest, res: Response) => {
     const menuItem: Imenu = {
       name: req.body.name,
       category: req.body.category,
-      tastyTag: req.body.tastyTag,
-      mealTime: req.body.mealTime,
+      mealTime: req.body.mealTime.map((mealtime: ImealTime) => ({
+        mealtime: mealtime.mealtime,
+      })),
       description: req.body.description,
+      image: req.body.image,
       size: req.body.size.map((size: Isize) => ({
         sizeName: size.sizeName,
         ingredients: size.ingredients.map((ingredient: Iingredient) => ({
@@ -43,7 +46,7 @@ const menuController = async (req: ExtendedRequest, res: Response) => {
           addonPrice: addOn.addonPrice,
         })),
       })),
-      organization: new mongoose.Types.ObjectId(organizationId.toString()),
+      organizationName: organizationId.toString(),
       quantity: req.body.quantity || 0,
       totalPrice: req.body.totalPrice || 0,
     };
@@ -55,5 +58,4 @@ const menuController = async (req: ExtendedRequest, res: Response) => {
     res.status(500).send(error);
   }
 };
-
 export default menuController;

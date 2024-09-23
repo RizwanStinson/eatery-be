@@ -27,19 +27,18 @@ export interface Isize {
 
 export interface Imenu {
   itemName: string;
-  category: string;
+  quantity: number;
   selectedSize: string;
+  unitPrice: number;
   ingredients: Iingredient[];
-  preparationTime: number;
   sellingPrice: number;
   addOns: IaddOn[];
-  quantity: number;
-  totalPrice: number;
 }
 export interface IPos {
   tableNo: number;
   tableStatus: string;
   menuItems: Imenu[];
-  optionalNotes?: string;
-  organizationName: string;
+  preparationTime: number;
+  totalPrice: number;
+  organizationName: string; // added this line
 }

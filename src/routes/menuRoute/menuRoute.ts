@@ -7,12 +7,12 @@ const routerMenu = Router();
 
 routerMenu.post(
   "/addmenu",
-  authMiddleware(["Admin", "MenuManager"]),
+  /* authMiddleware(["Admin", "MenuManager"]), */
   menuController
 );
 routerMenu.get(
   "/allmenu",
-  authMiddleware(["Admin", "MenuManager"]),
+  /* authMiddleware(["Admin", "MenuManager"]), */
   getMenuController
 );
 

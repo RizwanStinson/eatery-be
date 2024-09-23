@@ -15,11 +15,13 @@ export const createOrder = async (req: ExtendedRequest, res: Response) => {
       preparationTime: orderDetails.preparationTime,
       totalPrice: orderDetails.totalPrice,
       organizationName, // added this line
+      //totalPrice: (orderDetails.totalPrice),
     });
 
     await newOrder.save();
 
     updateIngredients(newOrder.menuItems, organizationName);
+   // updateIngredients(newOrder.menuItems);
 
     return res.status(201).json(newOrder);
   } catch (error) {
@@ -50,7 +52,6 @@ export const getAllOrders = async (req: ExtendedRequest, res: Response) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-
 const updateIngredients = async (
   menuItems: any[],
   organizationName: string

@@ -10,7 +10,7 @@ import routerEmployee from "./allEmployeeRoute/allEmployeeRoute";
 const router = Router();
 router.use("/", userRouter);
 router.use("/", getProfileRouter);
-router.use("/", posRouter);
+router.use("/pos", posRouter);
 
 //inventory
 router.use("/ingredient", newIngredientRoute);

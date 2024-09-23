@@ -17,9 +17,9 @@ const postIngredientController = async (
     console.log("User Info:", user);
 
     const Ingredient = {
-      name: req.body.name,
+      ingredient: req.body.ingredient,
       unit: req.body.unit,
-      orderPoint: req.body.orderPoint,
+      poo: req.body.poo,
       capacity: req.body.capacity,
       organization,
     };

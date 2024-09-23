@@ -1,12 +1,12 @@
 import mongoose, { Schema, Document } from "mongoose";
+import {
+  Imenu,
+  Isize,
+  ImealTime,
+  IaddOn,
+  Iingredient,
+} from "../../interfaces/inventoryInterface/interfaces";
 
-export interface Iingredient extends Document {
-  name: string;
-  properties: {
-    quantity: number;
-    unit: string;
-  };
-}
 
 const ingredientSchema = new Schema<Iingredient>({
   name: { type: String, required: true },
@@ -16,12 +16,6 @@ const ingredientSchema = new Schema<Iingredient>({
   },
 });
 
-export interface IaddOn extends Document {
-  name: string;
-  quantity: number;
-  unit: string;
-  addonPrice: number;
-}
 
 const addOnSchema = new Schema<IaddOn>({
   name: { type: String, required: true },
@@ -30,13 +24,9 @@ const addOnSchema = new Schema<IaddOn>({
   addonPrice: { type: Number, required: true },
 });
 
-export interface Isize extends Document {
-  sizeName: string;
-  ingredients: Iingredient[];
-  preparationTime: number;
-  sellingPrice: number;
-  addOns: IaddOn[];
-}
+const mealTimeSchema: Schema = new Schema<ImealTime>({
+  mealtime: { type: String, required: true },
+});
 
 const sizeSchema = new Schema<Isize>({
   sizeName: { type: String, required: true },
@@ -46,30 +36,18 @@ const sizeSchema = new Schema<Isize>({
   addOns: [addOnSchema],
 });
 
-export interface Imenu extends Document {
-  name: string;
-  category: string;
-  tastyTag?: string;
-  mealTime?: string;
-  description?: string;
-  size: Isize[];
-  quantity: number;
-  totalPrice: number;
-  organization: mongoose.Types.ObjectId;
-}
 
 const menuSchema = new Schema<Imenu>({
   name: { type: String, required: true },
   category: { type: String, required: true },
-  tastyTag: { type: String },
-  mealTime: { type: String },
+  mealTime: [mealTimeSchema],
   description: { type: String },
+  image: { type: String },
   size: [sizeSchema],
   quantity: { type: Number, required: true },
   totalPrice: { type: Number, required: true },
-  organization: {
-    type: Schema.Types.ObjectId,
-    ref: "Organization",
+  organizationName: {
+    type: String,
     required: true,
   },
 });

@@ -1,23 +1,23 @@
 export interface Iaddingredient {
-  name: string;
+  ingredient: string;
   unit: string;
-  orderPoint: number;
+  poo: number;
   capacity: number;
-  organization: string;
+  organizationName: string;
 }
 
 export interface Idetails {
-  name: string;
+  ingredient: string;
   currentStock: number;
   unit: string;
-  unitCost: number;
-  orderPoint: number;
+  cost: number;
+  poo: number;
   prevStock: number;
-  prevStockExpiry: Date;
+  prevExpiary: Date;
   newStock: number;
   newStockExpiry: Date;
   capacity: number;
-  organization: string;
+  organizationName: string;
 }
 
 export interface Idummy {
@@ -33,7 +33,7 @@ export interface Istock {
   cost: number;
   stock: number;
   expiry: Date;
-  organization: string;
+  organizationName: string;
 }
 
 export interface IingredientProperties {
@@ -53,6 +53,10 @@ export interface IaddOn {
   addonPrice: number;
 }
 
+export interface ImealTime {
+  mealtime: string;
+}
+
 export interface Isize {
   sizeName: string;
   ingredients: Iingredient[];
@@ -64,11 +68,11 @@ export interface Isize {
 export interface Imenu {
   name: string;
   category: string;
-  tastyTag: string;
-  mealTime: string;
+  mealTime: ImealTime[];
   description: string;
+  image: string;
   size: Isize[];
   quantity: number;
   totalPrice: number;
-  organization: String;
+  organizationName: String;
 }
