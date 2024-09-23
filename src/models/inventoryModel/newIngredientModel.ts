@@ -8,7 +8,6 @@ const addIngredientSchema: Schema = new Schema<Iaddingredient>({
   capacity: { type: Number, required: true },
   organizationName: {
     type: String,
-    ref: "Organization",
     required: true,
   },
 });
