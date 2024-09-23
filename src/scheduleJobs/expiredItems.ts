@@ -2,7 +2,7 @@ import { scheduleJob } from 'node-schedule';
 import inventory from '../models/inventoryModel/inventoryModel';
 import wastageDetails from '../models/inventoryModel/wastageModel';
 
-export const expiredItems = scheduleJob('0 0 * * *', () => {
+export const expiredItems = scheduleJob('* * * * *', () => {
   console.log('Processing expired items');
 
   const handleExpiredItems = async () => {

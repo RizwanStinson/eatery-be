@@ -82,5 +82,13 @@
     "expiryDate": "2024-09-21",
     "price": 1.2,
     "stock": 100
+  },
+  {
+    "itemName": "Garlic",
+    "unit": "K.G",
+    "expiryDate": "2024-09-21",
+    "price": 1.2,
+    "stock": 100
   }
+
 ]
