@@ -39,7 +39,7 @@ export const authMiddleware = (
         verifiedToken = verify(token, JWT_SECRET) as {
           userId: string;
           userType: string;
-          organization: string;
+          organizationName: string;
         };
       } catch (error) {
         return res.status(401).json({ message: "Invalid or expired token" });

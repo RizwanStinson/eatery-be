@@ -1,65 +1,47 @@
-import { Response } from "express";
-import POS from "../../models/posModel/posModel";
-import { IPos } from "../../interfaces/posInterface";
+import { Request, Response } from "express";
+import { POS } from "../../models/posModel/posModel";
+import inventory from "../../models/inventoryModel/inventoryModel";
 import { ExtendedRequest } from "../../interfaces/extendedRequest";
 
 export const createOrder = async (req: ExtendedRequest, res: Response) => {
   try {
-    console.log("Request body:", req.body);
+    const { orderDetails } = req.body;
+    const { organizationName } = req.user!; // added this line
 
-    const user = req.user;
-    if (!user) {
-      return res.status(401).json({ error: "User not authenticated" });
-    }
-
-    const orderData: IPos = req.body;
-    if (!orderData.tableNo) {
-      return res.status(400).json({ error: "Table number is required" });
-    }
-
-    const newOrder = new POS({ ...orderData, organization: user.organizationName });
-    await newOrder.save();
-
-    res.status(201).json(newOrder);
-  } catch (error) {
-    console.error("Error creating order:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
-
-export const getOrderByTable = async (req: ExtendedRequest, res: Response) => {
-  const { tableNO } = req.params;
-
-  try {
-    const user = req.user;
-    if (!user) {
-      return res.status(401).json({ error: "User not authenticated" });
-    }
-
-    const order = await POS.findOne({
-      tableNo: Number(tableNO),
-      organization: user.organizationName,
+    const newOrder = new POS({
+      tableNo: orderDetails.tableNo,
+      tableStatus: orderDetails.tableStatus,
+      menuItems: orderDetails.menuItems,
+      preparationTime: orderDetails.preparationTime,
+      totalPrice: orderDetails.totalPrice,
+      organizationName, // added this line
     });
 
-    if (!order) {
-      return res
-        .status(404)
-        .json({ message: "Order not found for this table" });
-    }
+    await newOrder.save();
 
-    return res.status(200).json(order);
+    updateIngredients(newOrder.menuItems, organizationName);
+
+    return res.status(201).json(newOrder);
   } catch (error) {
-    console.error("Error retrieving order:", error);
+    console.error("Error creating order:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
 
 export const getAllOrders = async (req: ExtendedRequest, res: Response) => {
   try {
-    const orders = await POS.find();
+    if (!req.user) {
+      return res.status(401).json({ message: "User not authenticated" });
+    }
+
+    const { organizationName } = req.user;
+
+    const orders = await POS.find({ organizationName: organizationName });
 
     if (!orders || orders.length === 0) {
-      return res.status(404).json({ message: "No orders found" });
+      return res
+        .status(404)
+        .json({ message: "No orders found for your organization" });
     }
 
     return res.status(200).json(orders);
@@ -68,7 +50,11 @@ export const getAllOrders = async (req: ExtendedRequest, res: Response) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-/* const updateIngredients = async (menuItems: any[]) => {
+
+const updateIngredients = async (
+  menuItems: any[],
+  organizationName: string
+) => {
   try {
     for (const menuItem of menuItems) {
       const { ingredients } = menuItem;
@@ -76,7 +62,10 @@ export const getAllOrders = async (req: ExtendedRequest, res: Response) => {
       for (const ingredient of ingredients) {
         const { name, properties } = ingredient;
 
-        const inventoryItem = await inventory.findOne({ ingredient: name });
+        const inventoryItem = await inventory.findOne({
+          ingredient: name,
+          organizationName,
+        });
 
         if (inventoryItem) {
           const newPrevStock =
@@ -96,4 +85,4 @@ export const getAllOrders = async (req: ExtendedRequest, res: Response) => {
   } catch (error) {
     console.error("Error updating ingredients in inventory:", error);
   }
-}; */
+};

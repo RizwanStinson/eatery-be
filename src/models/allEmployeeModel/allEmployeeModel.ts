@@ -10,5 +10,5 @@ const allEmployeeSchema: Schema = new Schema({
     phone: { type: String, required: true },
   });
   
-  const allEmployee = mongoose.model<IAllEmployee>('Hr', allEmployeeSchema);
+  const allEmployee = mongoose.model<IAllEmployee>('user', allEmployeeSchema);
   export default allEmployee;

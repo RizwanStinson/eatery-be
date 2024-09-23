@@ -28,18 +28,18 @@ export interface Isize {
 export interface Imenu {
   itemName: string;
   category: string;
-  selectedSize: string; 
+  selectedSize: string;
   ingredients: Iingredient[];
-  preparationTime: number; 
+  preparationTime: number;
   sellingPrice: number;
   addOns: IaddOn[];
   quantity: number;
   totalPrice: number;
 }
 export interface IPos {
-  tableNo: number; 
+  tableNo: number;
   tableStatus: string;
   menuItems: Imenu[];
   optionalNotes?: string;
-  organization: Schema.Types.ObjectId;
+  organizationName: string;
 }
