@@ -13,7 +13,7 @@ export const createOrder = async (req: Request, res: Response) => {
       tableStatus: orderDetails.tableStatus,
       menuItems: orderDetails.menuItems,
       preparationTime: orderDetails.preparationTime,
-      totalPrice: (orderDetails.totalPrice),
+      totalPrice: orderDetails.totalPrice,
     });
 
     await newOrder.save();
@@ -65,7 +65,6 @@ export const getTopSellingItems = async (req: Request, res: Response) => {
 
     const topSellingItems = Array.from(itemCountMap.entries())
       .sort((a, b) => b[1] - a[1])
-      .slice(0, 5)
       .map(([itemName, count]) => ({ itemName, count }));
 
     return res.json(topSellingItems);
@@ -104,4 +103,3 @@ const updateIngredients = async (menuItems: any[]) => {
     console.error("Error updating ingredients in inventory:", error);
   }
 };
-
