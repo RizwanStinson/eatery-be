@@ -26,14 +26,23 @@ export const expiredItems = scheduleJob('0 0 * * *', () => {
           [
             {
               $set: {
-                prevStock: 0,
-                currentStock: '$newStock',
-                prevExpiary: null,
-                incomingStock: null,
+                prevStock: '$newStock',
+                newStock: { $divide: ['$capacity', 2] },
+                currentStock: { $add: ['$newStock', '$newStock'] },
+                prevExpiary: '$newStockExpiry',
+                newStockExpiry: {
+                  $dateAdd: {
+                    startDate:'$newStockExpiry',
+                    unit: 'day',
+                    amount: 3,
+                  },
+                },
+                incomingStock: { $add: new Date() },
               },
             },
           ]
         );
+
         console.log('Expired items updated in inventory:', updatedItems);
 
         return {
