@@ -39,4 +39,5 @@ export interface IPos {
   menuItems: Imenu[];
   preparationTime: number;
   totalPrice: number;
+  createdAt: Date;
 }

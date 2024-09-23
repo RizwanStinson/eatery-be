@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { POS } from "../../models/posModel/posModel";
 import inventory from "../../models/inventoryModel/inventoryModel";
+import { endOfDay, startOfDay } from "date-fns";
+import { Imenu, IPos } from "../../interfaces/posInterface";
 
 export const createOrder = async (req: Request, res: Response) => {
   try {
@@ -40,6 +42,39 @@ export const getAllOrders = async (req: Request, res: Response) => {
   }
 };
 
+export const getTopSellingItems = async (req: Request, res: Response) => {
+  try {
+    const start = startOfDay(new Date());
+    console.log("Now Time: ", new Date());
+    console.log("Start: ", start);
+    const end = endOfDay(new Date());
+    console.log("End: ", end);
+
+    const orders: IPos[] = await POS.find({
+      createdAt: { $gte: start, $lt: end },
+    });
+    const itemCountMap = new Map<string, number>();
+    orders.forEach((order) => {
+      order.menuItems.forEach((item) => {
+        const menuItem = item as unknown as Imenu;
+        const currentCount = itemCountMap.get(menuItem.itemName) || 0;
+        const updatedCount = currentCount + menuItem.quantity;
+        itemCountMap.set(menuItem.itemName, updatedCount);
+      });
+    });
+
+    const topSellingItems = Array.from(itemCountMap.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([itemName, count]) => ({ itemName, count }));
+
+    return res.json(topSellingItems);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const updateIngredients = async (menuItems: any[]) => {
   try {
     for (const menuItem of menuItems) {
@@ -69,3 +104,4 @@ const updateIngredients = async (menuItems: any[]) => {
     console.error("Error updating ingredients in inventory:", error);
   }
 };
+

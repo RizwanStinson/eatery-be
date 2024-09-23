@@ -11,4 +11,6 @@ posRouter.post("/new", createOrder);
 
 posRouter.get("/orders", getAllOrders);
 
+posRouter.get("/bestsell", getAllOrders);
+
 export default posRouter;
