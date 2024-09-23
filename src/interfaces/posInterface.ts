@@ -24,20 +24,19 @@ export interface Isize {
 }
 
 export interface Imenu {
-  name: string;
-  category: string;
-  size: string;
+  itemName: string;
+  quantity: number;
+  selectedSize: string;
+  unitPrice: number;
   ingredients: Iingredient[];
-  preparationTime: number;
   sellingPrice: number;
   addOns: IaddOn[];
-  quantity: number;
-  totalPrice: number;
 }
 
 export interface IPos {
-  tableNO: number;
+  tableNo: number;
   tableStatus: string;
   menuItems: Imenu[];
-  optionalNotes?: string;
+  preparationTime: number;
+  totalPrice: number;
 }
