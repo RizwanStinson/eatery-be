@@ -18,7 +18,7 @@ getProfileRouter.get(
         userId: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
-        organization: user.organization,
+        organizationName: user.organizationName,
         userType: user.userType,
         phone: user.phone,
         email: user.email,

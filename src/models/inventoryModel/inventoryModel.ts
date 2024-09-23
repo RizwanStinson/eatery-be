@@ -15,7 +15,7 @@ const inventorySchema: Schema = new Schema<Idetails>({
   organizationName: {
     type: String,
     required: true,
-  }, // Add organization
+  },
 });
 
 const inventory = mongoose.model("Inventory", inventorySchema);

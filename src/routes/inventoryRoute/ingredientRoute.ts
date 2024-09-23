@@ -2,6 +2,7 @@ import { Router } from "express";
 import postIngredientController from "../../controllers/inventoryController/postIngredientController";
 import getIngredientController from "../../controllers/inventoryController/getIngredientController";
 import { authMiddleware } from "../../middlewares/auth";
+import { orderIngredient } from "../../controllers/inventoryController/orderController";
 
 const newIngredientRoute = Router();
 
@@ -16,11 +17,11 @@ newIngredientRoute.get(
   authMiddleware(["Admin", "InventoryManager"]),
   getIngredientController
 );
-import { orderIngredient } from '../../controllers/inventoryController/orderController';
 
-
-newIngredientRoute.post("/addingredient", postIngredientController);
-newIngredientRoute.get("/allingredient", getIngredientController);
-newIngredientRoute.post('/order-ingredient',orderIngredient)
+newIngredientRoute.post(
+  "/order-ingredient",
+  authMiddleware(["Admin", "InventoryManager"]),
+  orderIngredient
+);
 
 export default newIngredientRoute;

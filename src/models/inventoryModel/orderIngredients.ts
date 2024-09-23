@@ -18,7 +18,6 @@ const orderIngredientsSchema = new Schema({
   },
 });
 
-// Create the model
 const OrderIngredients = model('OrderIngredients', orderIngredientsSchema);
 
 export default OrderIngredients;
