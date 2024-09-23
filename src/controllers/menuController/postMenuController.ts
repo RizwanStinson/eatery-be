@@ -16,10 +16,10 @@ const menuController = async (req: ExtendedRequest, res: Response) => {
       return res.status(401).json({ message: "User not authenticated" });
     }
 
-    const organizationId = req.user.organizationName;
-    if (!mongoose.Types.ObjectId.isValid(organizationId.toString())) {
+    const organizationName = req.user.organizationName;
+    /*  if (!mongoose.Types.ObjectId.isValid(organizationId.toString())) {
       return res.status(400).json({ message: "Invalid organization ID" });
-    }
+    } */
     const menuItem: Imenu = {
       name: req.body.name,
       category: req.body.category,
@@ -46,7 +46,7 @@ const menuController = async (req: ExtendedRequest, res: Response) => {
           addonPrice: addOn.addonPrice,
         })),
       })),
-      organizationName: organizationId.toString(),
+      organizationName: organizationName,
       quantity: req.body.quantity || 0,
       totalPrice: req.body.totalPrice || 0,
     };
