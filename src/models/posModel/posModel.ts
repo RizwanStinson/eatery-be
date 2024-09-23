@@ -1,5 +1,11 @@
 import { Schema, model } from "mongoose";
-import { IaddOn, Iingredient, IingredientProperties, Imenu, IPos } from "../../interfaces/posInterface";
+import {
+  IaddOn,
+  Iingredient,
+  IingredientProperties,
+  Imenu,
+  IPos,
+} from "../../interfaces/posInterface";
 
 const IngredientPropertiesSchema = new Schema<IingredientProperties>({
   quantity: { type: Number, required: true },
