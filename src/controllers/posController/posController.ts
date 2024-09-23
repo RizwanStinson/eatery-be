@@ -1,37 +1,48 @@
-import { Request, Response } from "express";
-import { POS } from "../../models/dashboardModel/todayOrder";
+import { Response } from "express";
+import POS from "../../models/posModel/posModel";
+import { IPos } from "../../interfaces/posInterface";
+import { ExtendedRequest } from "../../interfaces/extendedRequest";
 
-export const createOrder = async (req: Request, res: Response) => {
+export const createOrder = async (req: ExtendedRequest, res: Response) => {
   try {
-    const { orderDetails } = req.body;
+    console.log("Request body:", req.body);
+
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({ error: "User not authenticated" });
+    }
+
+    const orderData: IPos = req.body;
+    if (!orderData.tableNo) {
+      return res.status(400).json({ error: "Table number is required" });
+    }
 
     const newOrder = new POS({
-      tableNo: orderDetails.tableNo,
-      tableStatus: orderDetails.tableStatus,
-      menuItems: orderDetails.menuItems,
-      preparationTime: orderDetails.preparationTime,
-      totalPrice: orderDetails.totalPrice,
+      ...orderData,
+      organization: user.organizationName,
     });
-
-    //console.log(newOrder);
-
     await newOrder.save();
 
-    return res.status(201).json({
-      message: "Order created successfully",
-      order: newOrder,
-    });
+    res.status(201).json(newOrder);
   } catch (error) {
     console.error("Error creating order:", error);
-    return res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
-export const getOrderByTable = async (req: Request, res: Response) => {
-  const tableNO = Number(req.params.tableNO);
+export const getOrderByTable = async (req: ExtendedRequest, res: Response) => {
+  const { tableNO } = req.params;
 
   try {
-    const order = await POS.findOne({ tableNO });
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({ error: "User not authenticated" });
+    }
+
+    const order = await POS.findOne({
+      tableNo: Number(tableNO),
+      organization: user.organizationName,
+    });
 
     if (!order) {
       return res
@@ -46,34 +57,7 @@ export const getOrderByTable = async (req: Request, res: Response) => {
   }
 };
 
-export const updateTableStatus = async (req: Request, res: Response) => {
-  const tableNO = req.params.tableNO;
-  const { tableStatus } = req.body;
-
-  try {
-    const order = await POS.findOneAndUpdate(
-      { tableNO },
-      { tableStatus },
-      { new: true }
-    );
-
-    if (!order) {
-      return res
-        .status(404)
-        .json({ message: "Order not found for this table" });
-    }
-
-    return res.status(200).json({
-      message: "Table status updated successfully",
-      order,
-    });
-  } catch (error) {
-    console.error("Error updating table status:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
-};
-
-export const getAllOrders = async (req: Request, res: Response) => {
+export const getAllOrders = async (req: ExtendedRequest, res: Response) => {
   try {
     const orders = await POS.find();
 
@@ -87,25 +71,32 @@ export const getAllOrders = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-
-export const deleteOrder = async (req: Request, res: Response) => {
-  const tableNO = req.params.tableNO;
-
+/* const updateIngredients = async (menuItems: any[]) => {
   try {
-    const deletedOrder = await POS.findOneAndDelete({ tableNO });
+    for (const menuItem of menuItems) {
+      const { ingredients } = menuItem;
 
-    if (!deletedOrder) {
-      return res
-        .status(404)
-        .json({ message: "Order not found for this table" });
+      for (const ingredient of ingredients) {
+        const { name, properties } = ingredient;
+
+        const inventoryItem = await inventory.findOne({ ingredient: name });
+
+        if (inventoryItem) {
+          const newPrevStock =
+            (inventoryItem.prevStock as number) - properties.quantity;
+          const newCurrentStock =
+            (inventoryItem.currentStock as number) - properties.quantity;
+
+          inventoryItem.prevStock = newPrevStock >= 0 ? newPrevStock : 0;
+          inventoryItem.currentStock =
+            newCurrentStock >= 0 ? newCurrentStock : 0;
+          await inventoryItem.save();
+        } else {
+          console.warn(`Ingredient ${name} not found in inventory.`);
+        }
+      }
     }
-
-    return res.status(200).json({
-      message: "Order deleted successfully",
-      deletedOrder,
-    });
   } catch (error) {
-    console.error("Error deleting order:", error);
-    return res.status(500).json({ error: "Internal server error" });
+    console.error("Error updating ingredients in inventory:", error);
   }
-};
+}; */

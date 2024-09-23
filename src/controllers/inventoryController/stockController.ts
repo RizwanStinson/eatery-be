@@ -1,11 +1,18 @@
-import { Request, Response } from "express";
+import { ExtendedRequest } from "../../interfaces/extendedRequest";
+import { Response } from "express";
 import order from "../../models/inventoryModel/stockModel";
 import inventory from "../../models/inventoryModel/inventoryModel";
 import fs from "fs";
 import path from "path";
 
-const stockController = async (req: Request, res: Response) => {
+const stockController = async (req: ExtendedRequest, res: Response) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const organization = req.user.organizationName;
+
     const filePath = path.join(__dirname, "../../../vendorList.json");
     const jsonData = fs.readFileSync(filePath, "utf8");
     const dummyData = JSON.parse(jsonData);
@@ -14,6 +21,7 @@ const stockController = async (req: Request, res: Response) => {
     const newOrder = {
       name: req.body.name,
       stock: req.body.stock,
+      organization,
     };
     console.log("new Order:", newOrder);
 
@@ -21,9 +29,14 @@ const stockController = async (req: Request, res: Response) => {
     const matchedItem = dummyData.find(
       (item: { itemName: string }) => item.itemName === orderName
     );
+
     if (matchedItem) {
-      const updateInventory = await inventory.findOne({ name: req.body.name });
+      const updateInventory = await inventory.findOne({
+        name: req.body.name,
+        organization,
+      });
       console.log("Data from atlas:", updateInventory);
+
       if (updateInventory) {
         updateInventory.prevStock = req.body.stock;
         updateInventory.prevStockExpiry = matchedItem.expiryDate;
@@ -35,6 +48,7 @@ const stockController = async (req: Request, res: Response) => {
     } else {
       console.log("No match found for the order name.");
     }
+
     const recentOrder = await order.create(newOrder);
     res.status(200).send(recentOrder);
   } catch (error) {
@@ -42,4 +56,5 @@ const stockController = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 export default stockController;

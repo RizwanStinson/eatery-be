@@ -4,6 +4,7 @@ import { Itabledetails } from "../../interfaces/inventoryInterface/interfaces";
 const TabledetailsSchema = new Schema({
   number: { type: Number, required: true },
   capacity: { type: Number, required: true },
+  status: { type: String, required: true },
 });
 
 export const Table = model<Itabledetails>("tablePOS", TabledetailsSchema);

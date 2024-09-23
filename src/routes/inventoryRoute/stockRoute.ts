@@ -5,7 +5,7 @@ const stockRoute = Router();
 
 stockRoute.post(
   "/new",
-  authMiddleware(["Admin", "InventoryManager"]),
+  authMiddleware(["Admin", "InventoryManager"]), // Ensure only Admins and Inventory Managers can access
   stockController
 );
 

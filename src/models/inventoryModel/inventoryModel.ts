@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import { Idetails } from "../../interfaces/inventoryInterface/interfaces";
+
 const inventorySchema: Schema = new Schema<Idetails>({
   ingredient: { type: String },
   currentStock: { type: Number, default: 0 },
@@ -11,6 +12,11 @@ const inventorySchema: Schema = new Schema<Idetails>({
   newStock: { type: Number, default: null },
   newStockExpiry: { type: Date, default: null },
   capacity: { type: Number },
+  organization: {
+    type: Schema.Types.ObjectId,
+    ref: "Organization",
+    required: true,
+  }, // Add organization
 });
 
 const inventory = mongoose.model("Inventory", inventorySchema);

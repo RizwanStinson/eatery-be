@@ -1,3 +1,5 @@
+import { Schema } from "mongoose";
+
 export interface IingredientProperties {
   quantity: number;
   unit: string;
@@ -26,8 +28,7 @@ export interface Isize {
 export interface Imenu {
   itemName: string;
   category: string;
-  tastyTag: string;
-  size: string; // Size now stores just a string
+  selectedSize: string;
   ingredients: Iingredient[];
   preparationTime: number;
   sellingPrice: number;
@@ -35,13 +36,14 @@ export interface Imenu {
   quantity: number;
   totalPrice: number; // Add total price here
 }
-
 export interface IPos {
-  tableNO: number;
+  tableNo: number;
   tableStatus: string;
   menuItems: Imenu[];
   preparationTime: Number;
   totalPrice: Number;
   createdAt: Date;
   updatedAt: Date;
+  optionalNotes?: string;
+  organization: Schema.Types.ObjectId;
 }

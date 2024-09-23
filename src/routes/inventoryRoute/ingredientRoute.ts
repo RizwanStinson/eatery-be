@@ -10,6 +10,7 @@ newIngredientRoute.post(
   authMiddleware(["Admin", "InventoryManager"]),
   postIngredientController
 );
+
 newIngredientRoute.get(
   "/allingredient",
   authMiddleware(["Admin", "InventoryManager"]),

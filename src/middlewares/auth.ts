@@ -5,11 +5,12 @@ import { ExtendedRequest } from "../interfaces/extendedRequest";
 
 const JWT_SECRET = process.env.JWT_SECRET || "";
 
-export const authMiddleware = (allowedRoles: string[] = []) => {
+export const authMiddleware = (
+  allowedRoles: string[] = [],
+  requiredOrganization?: string
+) => {
   return async (req: ExtendedRequest, res: Response, next: NextFunction) => {
     try {
-      console.log("Headers received:", req.headers); 
-
       const authHeaders = req.headers.authorization;
       if (!authHeaders) {
         return res
@@ -38,6 +39,7 @@ export const authMiddleware = (allowedRoles: string[] = []) => {
         verifiedToken = verify(token, JWT_SECRET) as {
           userId: string;
           userType: string;
+          organization: string;
         };
       } catch (error) {
         return res.status(401).json({ message: "Invalid or expired token" });
@@ -48,11 +50,19 @@ export const authMiddleware = (allowedRoles: string[] = []) => {
         return res.status(401).json({ message: "User not found" });
       }
 
-      // Check if the user role is allowed
       if (allowedRoles.length && !allowedRoles.includes(user.userType)) {
         return res
           .status(403)
           .json({ message: "Forbidden: You are not authorized" });
+      }
+
+      if (
+        requiredOrganization &&
+        user.organizationName.toString() !== requiredOrganization
+      ) {
+        return res.status(403).json({
+          message: "Forbidden: You are not part of the required organization",
+        });
       }
 
       req.user = user;

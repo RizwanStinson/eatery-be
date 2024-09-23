@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { POS } from "../../models/dashboardModel/todayOrder";
+import POS from "../../models/posModel/posModel";
 import { startOfDay, endOfDay, subDays } from "date-fns";
 import { IPos } from "../../interfaces/posInterface";
 import { Imenu } from "../../interfaces/posInterface";
@@ -168,12 +168,10 @@ export const getTopSellingItems = async (req: Request, res: Response) => {
     const orders: IPos[] = await POS.find({
       createdAt: { $gte: start, $lt: end },
     });
-
     const itemCountMap = new Map<string, number>();
     orders.forEach((order) => {
       order.menuItems.forEach((item) => {
         const menuItem = item as unknown as Imenu;
-
         const currentCount = itemCountMap.get(menuItem.itemName) || 0;
         const updatedCount = currentCount + menuItem.quantity;
         itemCountMap.set(menuItem.itemName, updatedCount);

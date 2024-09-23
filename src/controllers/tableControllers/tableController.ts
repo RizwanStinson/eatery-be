@@ -8,6 +8,7 @@ const postTable = async (req: Request, res: Response) => {
     const addTable: Itabledetails = {
       number: req.body.number,
       capacity: req.body.capacity,
+      status: req.body.status,
     };
     console.log("new table: ", addTable);
     const newTable = await Table.create(addTable);

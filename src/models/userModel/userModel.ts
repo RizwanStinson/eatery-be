@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 import { IUser } from "../../interfaces/userInterface";
 
 const allowedUserTypes = [
@@ -17,8 +17,9 @@ const userSchema = new Schema<IUser>({
     type: String,
     required: true,
   },
-  organization: {
+  organizationName: {
     type: String,
+    //ref: "Organization",
     required: true,
   },
   userType: {
@@ -30,10 +31,9 @@ const userSchema = new Schema<IUser>({
     type: String,
     required: true,
     unique: true,
-    //match: [/\S+@\S+\.\S+/, "Invalid email format"],
   },
   phone: {
-    type: Number,
+    type: String,
     required: true,
   },
   password: {

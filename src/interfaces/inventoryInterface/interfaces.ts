@@ -1,8 +1,11 @@
+import { Types } from "mongoose";
+
 export interface Iaddingredient {
   ingredient: string;
   unit: string;
   poo: number;
   capacity: number;
+  organization: Types.ObjectId;
 }
 
 export interface Idetails {
@@ -16,6 +19,7 @@ export interface Idetails {
   newStock: number;
   newStockExpiry: Date;
   capacity: number;
+  organization: Types.ObjectId;
 }
 
 export interface Idummy {
@@ -31,6 +35,7 @@ export interface Istock {
   cost: number;
   stock: number;
   expiry: Date;
+  organization: Types.ObjectId;
 }
 
 export interface IingredientProperties {
@@ -47,6 +52,7 @@ export interface IaddOn {
   name: string;
   quantity: number;
   unit: string;
+  addonPrice: number;
 }
 
 export interface Isize {
@@ -64,11 +70,15 @@ export interface Imenu {
   mealTime: string;
   description: string;
   size: Isize[];
+  quantity: number;
+  totalPrice: number;
+  organization: Types.ObjectId;
 }
 
 export interface Itabledetails {
   number: number;
   capacity: number;
+  status: string;
 }
 
 export interface Itable {
