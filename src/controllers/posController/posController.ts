@@ -44,15 +44,15 @@ export const getAllOrders = async (req: Request, res: Response) => {
 
 export const getTopSellingItems = async (req: Request, res: Response) => {
   try {
-    const start = startOfDay(new Date());
+    /* const start = startOfDay(new Date());
     console.log("Now Time: ", new Date());
     console.log("Start: ", start);
     const end = endOfDay(new Date());
-    console.log("End: ", end);
+    console.log("End: ", end); */
 
-    const orders: IPos[] = await POS.find({
+    const orders: IPos[] = await POS.find(/* {
       createdAt: { $gte: start, $lt: end },
-    });
+    } */);
     const itemCountMap = new Map<string, number>();
     orders.forEach((order) => {
       order.menuItems.forEach((item) => {
