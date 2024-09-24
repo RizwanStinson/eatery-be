@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { POS } from "../../models/posModel/posModel";
 import inventory from "../../models/inventoryModel/inventoryModel";
-import { endOfDay, startOfDay } from "date-fns";
 import { Imenu, IPos } from "../../interfaces/posInterface";
 
 export const createOrder = async (req: Request, res: Response) => {
@@ -44,15 +43,7 @@ export const getAllOrders = async (req: Request, res: Response) => {
 
 export const getTopSellingItems = async (req: Request, res: Response) => {
   try {
-    /* const start = startOfDay(new Date());
-    console.log("Now Time: ", new Date());
-    console.log("Start: ", start);
-    const end = endOfDay(new Date());
-    console.log("End: ", end); */
-
-    const orders: IPos[] = await POS.find(/* {
-      createdAt: { $gte: start, $lt: end },
-    } */);
+    const orders: IPos[] = await POS.find();
     const itemCountMap = new Map<string, number>();
     orders.forEach((order) => {
       order.menuItems.forEach((item) => {
