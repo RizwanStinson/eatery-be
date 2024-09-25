@@ -1,11 +1,11 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose';
 import {
   Imenu,
   Isize,
   ImealTime,
   IaddOn,
   Iingredient,
-} from "../../interfaces/inventoryInterface/interfaces";
+} from '../../interfaces/inventoryInterface/interfaces';
 
 const ingredientSchema: Schema = new Schema<Iingredient>({
   name: { type: String, required: true },
@@ -40,9 +40,9 @@ const menuSchema: Schema = new Schema<Imenu>({
   mealTime: [mealTimeSchema],
   description: { type: String },
   image: { type: String },
-  size: [sizeSchema],
+  size: { type: [sizeSchema], required: false },
 });
 
-const menu = mongoose.model("menu", menuSchema);
+const menu = mongoose.model('menu', menuSchema);
 
 export default menu;

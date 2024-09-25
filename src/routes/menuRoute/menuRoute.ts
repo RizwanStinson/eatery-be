@@ -28,14 +28,13 @@
 // export default routerMenu;
 
 import { Router } from "express";
-import menuController from "../../controllers/menuController/postMenuController";
-import { upload } from "../../middlewares/uploadMiddleware"
-import getMenuController from "../../controllers/menuController/getMenuController";
 import deleteMenuController from "../../controllers/menuController/deleteMenuController";
+import getMenuController from "../../controllers/menuController/getMenuController";
+import menuController from "../../controllers/menuController/postMenuController";
 
 const routerMenu = Router();
 
-routerMenu.post("/addmenu", upload.single("image"), menuController);
+routerMenu.post("/addmenu", menuController);
 
 routerMenu.get("/allmenu", getMenuController);
 routerMenu.delete('/items/:id', deleteMenuController);

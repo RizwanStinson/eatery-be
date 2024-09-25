@@ -48,20 +48,20 @@
 // };
 // export default menuController;
 
-import { Request, Response } from "express";
-import menu from "../../models/menuModel/menuModel";
+import { Request, Response } from 'express';
 import {
-  Imenu,
   IaddOn,
   Iingredient,
-  Isize,
   ImealTime,
-} from "../../interfaces/inventoryInterface/interfaces";
-import fs from "fs";
-import path from "path";
+  Imenu,
+  Isize,
+} from '../../interfaces/inventoryInterface/interfaces';
+import menu from '../../models/menuModel/menuModel';
+import { DefaultValues } from '../../consts';
+
 const menuController = async (req: Request, res: Response) => {
   try {
-    console.log("file", req.file);
+    console.log('file', req.file);
     const menuController: Imenu = {
       name: req.body.name,
       category: req.body.category,
@@ -69,7 +69,7 @@ const menuController = async (req: Request, res: Response) => {
         mealtime: mealtime.mealtime,
       })),
       description: req.body.description,
-      image: `/uploads/${req.file?.filename}`, // Manually create the image path
+      image: `${DefaultValues.backendOrigin}/uploads/${req.body.image}`, // Manually create the image path
 
       size: req.body.size.map((size: Isize) => ({
         sizeName: size.sizeName,
@@ -90,11 +90,11 @@ const menuController = async (req: Request, res: Response) => {
         })),
       })),
     };
-    console.log("newMenu:", menuController);
+    console.log('newMenu:', menuController);
     const newMenuItem = await menu.create(menuController);
     res.status(200).json(newMenuItem);
   } catch (error) {
-    console.error("Error creating menu item:", error);
+    console.error('Error creating menu item:', error);
     res.status(500).send(error);
   }
 };
