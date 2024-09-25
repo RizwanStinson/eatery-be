@@ -70,7 +70,7 @@ export interface Imenu {
   category: string;
   mealTime: ImealTime[];
   description: string;
-  image: string;
+  image?: string;
   size: Isize[];
   quantity: number;
   totalPrice: number;
