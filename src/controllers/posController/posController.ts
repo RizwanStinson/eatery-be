@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { POS } from "../../models/posModel/posModel";
 import inventory from "../../models/inventoryModel/inventoryModel";
 import { ExtendedRequest } from "../../interfaces/extendedRequest";
+import { Imenu, IPos } from "../../interfaces/posInterface";
 
 export const createOrder = async (req: ExtendedRequest, res: Response) => {
   try {
@@ -14,8 +15,6 @@ export const createOrder = async (req: ExtendedRequest, res: Response) => {
       menuItems: orderDetails.menuItems,
       preparationTime: orderDetails.preparationTime,
       totalPrice: orderDetails.totalPrice,
-      organizationName, // added this line
-      //totalPrice: (orderDetails.totalPrice),
     });
 
     await newOrder.save();
@@ -52,10 +51,32 @@ export const getAllOrders = async (req: ExtendedRequest, res: Response) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-const updateIngredients = async (
-  menuItems: any[],
-  organizationName: string
-) => {
+
+export const getTopSellingItems = async (req: Request, res: Response) => {
+  try {
+    const orders: IPos[] = await POS.find();
+    const itemCountMap = new Map<string, number>();
+    orders.forEach((order) => {
+      order.menuItems.forEach((item) => {
+        const menuItem = item as unknown as Imenu;
+        const currentCount = itemCountMap.get(menuItem.itemName) || 0;
+        const updatedCount = currentCount + menuItem.quantity;
+        itemCountMap.set(menuItem.itemName, updatedCount);
+      });
+    });
+
+    const topSellingItems = Array.from(itemCountMap.entries())
+      .sort((a, b) => b[1] - a[1])
+      .map(([itemName, count]) => ({ itemName, count }));
+
+    return res.json(topSellingItems);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const updateIngredients = async (menuItems: any[]) => {
   try {
     for (const menuItem of menuItems) {
       const { ingredients } = menuItem;

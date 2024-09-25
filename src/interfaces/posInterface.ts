@@ -41,4 +41,5 @@ export interface IPos {
   preparationTime: number;
   totalPrice: number;
   organizationName: string; // added this line
+  createdAt: Date;
 }
