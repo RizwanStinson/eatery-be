@@ -76,7 +76,7 @@ export const getTopSellingItems = async (req: Request, res: Response) => {
   }
 };
 
-const updateIngredients = async (menuItems: any[]) => {
+const updateIngredients = async (menuItems: any[], organizationName:string) => {
   try {
     for (const menuItem of menuItems) {
       const { ingredients } = menuItem;

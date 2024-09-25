@@ -8,9 +8,9 @@ import { authMiddleware } from "../../middlewares/auth";
 
 const posRouter = express.Router();
 
-posRouter.post("/new", authMiddleware(["Admin", "POSManager"]), createOrder);
+posRouter.post("/new", createOrder);
 
-posRouter.get("/orders", authMiddleware(["Admin", "POSManager"]), getAllOrders);
+posRouter.get("/orders", getAllOrders);
 
 posRouter.get("/bestsell", getTopSellingItems);
 

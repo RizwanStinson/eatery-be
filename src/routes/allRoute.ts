@@ -6,11 +6,12 @@ import newIngredientRoute from "./inventoryRoute/ingredientRoute";
 import stockRoute from "./inventoryRoute/stockRoute";
 import routerMenu from "./menuRoute/menuRoute";
 import routerEmployee from "./allEmployeeRoute/allEmployeeRoute";
+import { authMiddleware } from "../middlewares/auth";
 
 const router = Router();
 router.use("/", userRouter);
 router.use("/", getProfileRouter);
-router.use("/pos", posRouter);
+router.use("/pos",authMiddleware(["Admin", "POSManager"]), posRouter);
 
 //inventory
 router.use("/ingredient", newIngredientRoute);
