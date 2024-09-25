@@ -7,7 +7,8 @@ import {
   Iingredient,
 } from '../../interfaces/inventoryInterface/interfaces';
 
-const ingredientSchema: Schema = new Schema<Iingredient>({
+
+const ingredientSchema = new Schema<Iingredient>({
   name: { type: String, required: true },
   properties: {
     quantity: { type: Number, required: true },
@@ -42,7 +43,13 @@ const menuSchema = new Schema<Imenu>({
   mealTime: [mealTimeSchema],
   description: { type: String },
   image: { type: String },
-  size: { type: [sizeSchema], required: false },
+  size: { type: [sizeSchema], required: true },
+  quantity: { type: Number, required: true },
+  totalPrice: { type: Number, required: true },
+  organizationName: {
+    type: String,
+    required: true,
+  },
 });
 
 const menu = mongoose.model('menu', menuSchema);

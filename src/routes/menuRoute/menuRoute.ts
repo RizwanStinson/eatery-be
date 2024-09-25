@@ -31,6 +31,7 @@ import { Router } from "express";
 import deleteMenuController from "../../controllers/menuController/deleteMenuController";
 import getMenuController from "../../controllers/menuController/getMenuController";
 import menuController from "../../controllers/menuController/postMenuController";
+import { authMiddleware } from "../../middlewares/auth";
 
 const routerMenu = Router();
 
