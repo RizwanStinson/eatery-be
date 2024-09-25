@@ -16,7 +16,7 @@ const stockController = async (req: ExtendedRequest, res: Response) => {
     const filePath = path.join(__dirname, "../../../vendorList.json");
     const jsonData = fs.readFileSync(filePath, "utf8");
     const dummyData = JSON.parse(jsonData);
-    console.log("dummy from here: ", dummyData);
+   
 
     const newOrder = {
       name: req.body.name,
