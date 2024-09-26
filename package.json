@@ -22,7 +22,6 @@
   "dependencies": {
     "@types/cors": "^2.8.17",
     "axios": "^1.7.7",
-    "bcrypt": "^5.1.1",
     "@types/node-schedule": "^2.1.7",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
