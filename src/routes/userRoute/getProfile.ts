@@ -13,7 +13,6 @@ getProfileRouter.get(
     }
 
     res.status(200).json({
-      message: "Authenticated user data",
       user: {
         userId: user._id,
         firstName: user.firstName,

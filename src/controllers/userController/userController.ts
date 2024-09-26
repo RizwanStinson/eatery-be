@@ -3,6 +3,7 @@ import User from "../../models/userModel/userModel";
 import Organization from "../../models/organizations/organizationModel";
 import { compare, hash } from "bcrypt";
 import jwt from "jsonwebtoken";
+import { ExtendedRequest } from "../../interfaces/extendedRequest";
 
 const SECRET_KEY = process.env.JWT_SECRET || "";
 
@@ -109,3 +110,10 @@ export async function login(req: Request, res: Response) {
       .send({ error: "400", message: "Error occurred during login" });
   }
 }
+
+//get loggedIn user inf0
+
+export const loggedInUser = async (req: ExtendedRequest, res: Response) => {
+  const userInfo = req.user;
+  res.status(201).json(userInfo);
+};
