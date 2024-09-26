@@ -19,7 +19,7 @@ router.use('/ingredient',authMiddleware(["Admin", "InventoryManager"]), newIngre
 router.use('/stock',authMiddleware(["Admin", "InventoryManager"]), stockRoute);
 
 //menu
-router.use('/menu', authMiddleware(["Admin", "InventoryManager"]),routerMenu);
+router.use('/menu', authMiddleware(["Admin", "MenuManager"]),routerMenu);
 
 //Image Upload
 router.post('/imageUpload', upload.single('image'), (req, res) => {
