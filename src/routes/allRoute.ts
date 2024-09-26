@@ -7,6 +7,8 @@ import posRouter from './posRoute/posroute';
 import getProfileRouter from './userRoute/getProfile';
 import userRouter from './userRoute/userRoute';
 import routerEmployee from './allEmployeeRoute/allEmployeeRoute';
+import dashboardRouter from "./dashboardRoute/dashboardRoute";
+import tablePOSRoute from "./tablePOSRoute/tablePosRoute";
 import { authMiddleware } from '../middlewares/auth';
 
 const router = Router();
@@ -18,6 +20,8 @@ router.use('/pos',authMiddleware(["Admin", "PosManager"]), posRouter);
 router.use('/ingredient',authMiddleware(["Admin", "InventoryManager"]), newIngredientRoute);
 router.use('/stock',authMiddleware(["Admin", "InventoryManager"]), stockRoute);
 
+router.use("/dashboardget",authMiddleware(["Admin"]), dashboardRouter);
+router.use("/tablePOS",authMiddleware(["Admin", "PosManager"]), tablePOSRoute);
 //menu
 router.use('/menu', authMiddleware(["Admin", "MenuManager"]),routerMenu);
 
@@ -27,6 +31,6 @@ router.post('/imageUpload', upload.single('image'), (req, res) => {
 });
 
 //hr
-router.use("/hr", routerEmployee);
+router.use("/hr",authMiddleware(["Admin"]), routerEmployee);
 
 export default router;

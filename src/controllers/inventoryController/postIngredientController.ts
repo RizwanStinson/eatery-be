@@ -3,7 +3,6 @@ import { ExtendedRequest } from "../../interfaces/extendedRequest";
 import newIngredient from "../../models/inventoryModel/newIngredientModel";
 import inventory from "../../models/inventoryModel/inventoryModel";
 
-
 const postIngredientController = async (
   req: ExtendedRequest,
   res: Response

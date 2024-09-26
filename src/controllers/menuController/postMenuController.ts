@@ -18,7 +18,7 @@ const menuController = async (req: ExtendedRequest, res: Response) => {
   try {
     console.log('file', req.file);
     const menuController: Imenu = {
-      name: req.body.name,
+      itemName: req.body.name,
       category: req.body.category,
       mealTime: req.body.mealTime.map((mealtime: ImealTime) => ({
         mealtime: mealtime.mealtime,

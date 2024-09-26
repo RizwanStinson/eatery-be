@@ -1,4 +1,5 @@
 import { IUser } from '../userInterface';
+import { Types } from "mongoose";
 
 export interface Iaddingredient {
   ingredient: string;
@@ -70,7 +71,7 @@ export interface Isize {
 }
 
 export interface Imenu {
-  name: string;
+  itemName: string;
   category: string;
   mealTime: ImealTime[];
   description: string;
@@ -79,4 +80,14 @@ export interface Imenu {
   quantity: number;
   totalPrice: number;
   organizationName: String;
+}
+
+export interface Itabledetails {
+  number: number;
+  capacity: number;
+  status: string;
+}
+
+export interface Itable {
+  tables: Itabledetails[];
 }
