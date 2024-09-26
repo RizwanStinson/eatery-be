@@ -1,3 +1,5 @@
+import { IUser } from '../userInterface';
+
 export interface Iaddingredient {
   ingredient: string;
   unit: string;
@@ -18,6 +20,8 @@ export interface Idetails {
   newStockExpiry: Date;
   capacity: number;
   organizationName: string;
+  incomingStock: Date;
+  user:IUser
 }
 
 export interface Idummy {

@@ -1,6 +1,6 @@
-import { Response } from "express";
-import { ExtendedRequest } from "../../interfaces/extendedRequest"; // Import ExtendedRequest
-import newIngredient from "../../models/inventoryModel/newIngredientModel";
+import { Response } from 'express';
+import { ExtendedRequest } from '../../interfaces/extendedRequest';
+import inventory from '../../models/inventoryModel/inventoryModel';
 
 const getIngredientController = async (req: ExtendedRequest, res: Response) => {
   try {
@@ -10,13 +10,17 @@ const getIngredientController = async (req: ExtendedRequest, res: Response) => {
 
     const organization = req.user.organizationName; 
     console.log("User's organization:", organization);
-
-    const ingredients = await newIngredient.find({ organization }); 
-    res.status(200).json(ingredients);
-    console.log("ingredientGet", ingredients);
+    const pageNumber = parseInt((req.query.pageNumber as string) || '0');
+    const pageSize = parseInt((req.query.pageSize as string) || '10');
+    const totalData = await inventory.countDocuments();
+    const { user } = req;
+    const ingredient = await inventory
+      .find({ organization : organization })
+      .skip(pageNumber * pageSize)
+      .limit(pageSize);
+    res.status(200).json({ ingredient, totalData });
   } catch (error) {
     res.status(500).send(error);
   }
 };
-
 export default getIngredientController;

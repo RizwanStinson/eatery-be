@@ -21,12 +21,13 @@ const postIngredientController = async (
       unit: req.body.unit,
       poo: req.body.poo,
       capacity: req.body.capacity,
+      // user: user?._id,
       organization,
     };
 
     console.log("New Ingredient: ", Ingredient);
 
-    const createIngredient = await newIngredient.create(Ingredient);
+
     const Inventory = await inventory.create(Ingredient);
 
     res.status(200).json({ createIngredient, Inventory });

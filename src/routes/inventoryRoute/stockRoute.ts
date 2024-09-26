@@ -1,12 +1,8 @@
-import { Router } from "express";
-import stockController from "../../controllers/inventoryController/stockController";
-import { authMiddleware } from "../../middlewares/auth";
+import { Router } from 'express';
+import { stockController } from '../../controllers/inventoryController/stockController';
+
 const stockRoute = Router();
 
-stockRoute.post(
-  "/new",
-  authMiddleware(["Admin", "InventoryManager"]), // Ensure only Admins and Inventory Managers can access
-  stockController
-);
+stockRoute.post('/new', stockController);
 
 export default stockRoute;
