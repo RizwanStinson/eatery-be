@@ -13,7 +13,7 @@ const postIngredientController = async (
     }
 
     const user = req.user;
-    const organization = user.organizationName;
+    const organizationName = user.organizationName;
     console.log("User Info:", user);
 
     // const { user } = req;
@@ -22,7 +22,7 @@ const postIngredientController = async (
       unit: req.body.unit,
       poo: req.body.poo,
       capacity: req.body.capacity,
-      organization,
+      organizationName,
     };
 
     console.log("New Ingredient: ", Ingredient);

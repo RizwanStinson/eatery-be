@@ -41,6 +41,10 @@ const POSSchema = new Schema<IPos>(
     menuItems: { type: [MenuSchema], required: true },
     preparationTime: { type: Number, required: true },
     totalPrice: { type: Number, required: true },
+    organizationName: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

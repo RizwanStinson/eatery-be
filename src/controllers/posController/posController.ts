@@ -7,7 +7,7 @@ import { Imenu, IPos } from "../../interfaces/posInterface";
 export const createOrder = async (req: ExtendedRequest, res: Response) => {
   try {
     const { orderDetails } = req.body;
-    const { organizationName } = req.user!; // added this line
+    const { organizationName } = req.user!;
 
     const newOrder = new POS({
       tableNo: orderDetails.tableNo,
@@ -15,12 +15,13 @@ export const createOrder = async (req: ExtendedRequest, res: Response) => {
       menuItems: orderDetails.menuItems,
       preparationTime: orderDetails.preparationTime,
       totalPrice: orderDetails.totalPrice,
+      organizationName,
     });
 
     await newOrder.save();
 
     updateIngredients(newOrder.menuItems, organizationName);
-   // updateIngredients(newOrder.menuItems);
+    // updateIngredients(newOrder.menuItems);
 
     return res.status(201).json(newOrder);
   } catch (error) {
@@ -52,9 +53,13 @@ export const getAllOrders = async (req: ExtendedRequest, res: Response) => {
   }
 };
 
-export const getTopSellingItems = async (req: Request, res: Response) => {
+export const getTopSellingItems = async (
+  req: ExtendedRequest,
+  res: Response
+) => {
   try {
-    const orders: IPos[] = await POS.find();
+    const organizationName = req.user?.organizationName;
+    const orders: IPos[] = await POS.find({ organizationName });
     const itemCountMap = new Map<string, number>();
     orders.forEach((order) => {
       order.menuItems.forEach((item) => {
@@ -76,7 +81,10 @@ export const getTopSellingItems = async (req: Request, res: Response) => {
   }
 };
 
-const updateIngredients = async (menuItems: any[], organizationName:string) => {
+const updateIngredients = async (
+  menuItems: any[],
+  organizationName: string
+) => {
   try {
     for (const menuItem of menuItems) {
       const { ingredients } = menuItem;

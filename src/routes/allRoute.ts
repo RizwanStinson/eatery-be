@@ -33,4 +33,5 @@ router.post('/imageUpload', upload.single('image'), (req, res) => {
 //hr
 router.use("/hr",authMiddleware(["Admin"]), routerEmployee);
 
+
 export default router;

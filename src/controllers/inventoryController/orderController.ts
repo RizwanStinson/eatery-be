@@ -5,7 +5,7 @@ import OrderIngredients from '../../models/inventoryModel/orderIngredients';
 export const orderIngredient = async (req: ExtendedRequest, res: Response) => {
   const { ingredients, cost } = req.body;
   const { user } = req;
-
+  const organizationName = user?.organizationName;
   // Validate required fields
   if (!ingredients || !cost) {
     return res
@@ -19,6 +19,7 @@ export const orderIngredient = async (req: ExtendedRequest, res: Response) => {
       ingredients,
       cost,
       user: user?._id,
+      organizationName
     });
 
     // Return the created order with a success response

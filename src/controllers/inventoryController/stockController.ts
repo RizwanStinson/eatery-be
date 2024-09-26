@@ -8,6 +8,7 @@ import order from '../../models/inventoryModel/stockModel';
 
 export const stockController = async (req: ExtendedRequest, res: Response) => {
   try {
+    const organizationName = req.user?.organizationName;
     const filePath = require('path').join(
       __dirname,
       '../../../vendorList.json'
@@ -19,6 +20,7 @@ export const stockController = async (req: ExtendedRequest, res: Response) => {
     const newOrder = await OrderIngredients.create({
       ingredients,
       cost,
+      organizationName
       // user: user!._id,
     });
 

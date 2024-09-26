@@ -102,6 +102,7 @@ export async function login(req: Request, res: Response) {
     return res.status(200).send({
       message: "Login successful",
       token,
+      userType
     });
   } catch (error) {
     console.log("Error during login:", error);

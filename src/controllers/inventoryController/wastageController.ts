@@ -5,11 +5,12 @@ import wastageDetails from '../../models/inventoryModel/wastageModel';
 export const wastageItems = async (req: ExtendedRequest, res: Response) => {
   try {
     const { user } = req;
+    const organizationName = req.user?.organizationName;
     const pageNumber = parseInt((req.query.pageNumber as string) || '0');
     const pageSize = parseInt((req.query.pageSize as string) || '10');
     const totalData = await wastageDetails.countDocuments();
     const expiredItems = await wastageDetails
-      .find({ user: user?._id })
+      .find({ organizationName })
       .skip(pageNumber * pageSize)
       .limit(pageSize)
       .limit(pageSize);
