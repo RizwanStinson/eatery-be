@@ -8,12 +8,12 @@ export const wastageItems = async (req: ExtendedRequest, res: Response) => {
     const organizationName = req.user?.organizationName;
     const pageNumber = parseInt((req.query.pageNumber as string) || '0');
     const pageSize = parseInt((req.query.pageSize as string) || '10');
-    const totalData = await wastageDetails.countDocuments();
+    const totalData = await wastageDetails.countDocuments({ organizationName });
     const expiredItems = await wastageDetails
       .find({ organizationName })
       .skip(pageNumber * pageSize)
       .limit(pageSize)
-      .limit(pageSize);
+      
 
     res.status(201).json({ expiredItems, totalData });
   } catch (error) {
