@@ -145,5 +145,26 @@
     "expiryDate": "2024-10-13",
     "price": 2,
     "stock": 100
+  },
+  {
+    "itemName": "Bread",
+    "unit": "Pieces",
+    "expiryDate": "2024-10-13",
+    "price": 2,
+    "stock": 100
+  },
+  {
+    "itemName": "Egg",
+    "unit": "Pieces",
+    "expiryDate": "2024-10-13",
+    "price": 2,
+    "stock": 100
+  },
+  {
+    "itemName": "Noodles",
+    "unit": "Gram",
+    "expiryDate": "2024-10-13",
+    "price": 2,
+    "stock": 100
   }
 ]
