@@ -7,6 +7,7 @@ export interface Iwastage {
   quantity: number;
   wastageDate: Date;
   user: IUser;
+  organizationName: string;
 }
 
 const wastageSchema: Schema = new Schema<Iwastage>({
@@ -15,6 +16,7 @@ const wastageSchema: Schema = new Schema<Iwastage>({
   quantity: { type: Number },
   wastageDate: { type: Date },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  organizationName: { type: String },
 });
 
 const wastageDetails = mongoose.model('Wastage', wastageSchema);
