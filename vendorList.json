@@ -2,93 +2,148 @@
   {
     "itemName": "Beef Patty",
     "unit": "k.G",
-    "expiryDate": "2024-09-13",
+    "expiryDate": "2024-10-13",
+    "price": 2,
+    "stock": 100
+  },
+  {
+    "itemName": "Potato",
+    "unit": "k.G",
+    "expiryDate": "2024-10-13",
+    "price": 2,
+    "stock": 100
+  },
+  {
+    "itemName": "Sauce",
+    "unit": "k.G",
+    "expiryDate": "2024-10-13",
+    "price": 2,
+    "stock": 100
+  },
+  {
+    "itemName": "Butter",
+    "unit": "Gram",
+    "expiryDate": "2024-10-13",
+    "price": 2,
+    "stock": 100
+  },
+  {
+    "itemName": "Beef",
+    "unit": "k.G",
+    "expiryDate": "2024-10-29",
     "price": 2,
     "stock": 100
   },
   {
     "itemName": "Lettuce",
     "unit": "Gram",
-    "expiryDate": "2024-09-21",
+    "expiryDate": "2024-10-21",
     "price": 1.2,
     "stock": 100
   },
   {
     "itemName": "Tomato",
     "unit": "K.G",
-    "expiryDate": "2024-09-16",
+    "expiryDate": "2024-10-16",
     "price": 3.0,
     "stock": 100
   },
   {
     "itemName": "Salami",
     "unit": "piece",
-    "expiryDate": "2024-09-21",
+    "expiryDate": "2024-10-21",
     "price": 1.2,
     "stock": 100
   },
   {
     "itemName": "Chicken",
     "unit": "K.G",
-    "expiryDate": "2024-09-21",
+    "expiryDate": "2024-10-21",
     "price": 1.2,
     "stock": 100
   },
   {
     "itemName": "Pepsi",
     "unit": "K.G",
-    "expiryDate": "2024-09-21",
+    "expiryDate": "2024-10-21",
     "price": 1.2,
     "stock": 100
   },
   {
     "itemName": "Tomato",
     "unit": "K.G",
-    "expiryDate": "2024-09-21",
+    "expiryDate": "2024-10-21",
     "price": 1.2,
     "stock": 100
   },
   {
     "itemName": "Mango Juice",
     "unit": "Liter",
-    "expiryDate": "2024-09-21",
+    "expiryDate": "2024-10-21",
     "price": 1.2,
     "stock": 100
   },
   {
     "itemName": "Onion",
     "unit": "K.G",
-    "expiryDate": "2024-09-21",
+    "expiryDate": "2024-10-21",
     "price": 1.2,
     "stock": 100
   },
   {
     "itemName": "Bun",
     "unit": "K.G",
-    "expiryDate": "2024-09-21",
+    "expiryDate": "2024-10-21",
     "price": 1.2,
     "stock": 100
   },
   {
     "itemName": "Brocli",
     "unit": "K.G",
-    "expiryDate": "2024-09-21",
+    "expiryDate": "2024-10-21",
     "price": 1.2,
     "stock": 100
   },
   {
     "itemName": "Red Chili",
     "unit": "K.G",
-    "expiryDate": "2024-09-21",
+    "expiryDate": "2024-10-21",
     "price": 1.2,
     "stock": 100
   },
   {
     "itemName": "Garlic",
     "unit": "K.G",
-    "expiryDate": "2024-09-21",
+    "expiryDate": "2024-10-21",
     "price": 1.2,
     "stock": 100
+  },
+  {
+    "itemName": "Ginger",
+    "unit": "K.G",
+    "expiryDate": "2024-10-21",
+    "price": 1.2,
+    "stock": 100
+  },
+  {
+    "itemName": "Chili",
+    "unit": "k.G",
+    "expiryDate": "2024-10-13",
+    "price": 2,
+    "stock": 100
+  },
+  {
+    "itemName": "Carrot",
+    "unit": "k.G",
+    "expiryDate": "2024-10-13",
+    "price": 2,
+    "stock": 100
+  },
+  {
+    "itemName": "Cheese",
+    "unit": "Gram",
+    "expiryDate": "2024-10-13",
+    "price": 2,
+    "stock": 100
   }
-
 ]
