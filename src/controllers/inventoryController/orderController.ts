@@ -1,10 +1,11 @@
-import { Request, Response } from "express";
-import OrderIngredients from "../../models/inventoryModel/orderIngredients";
-import { ExtendedRequest } from "../../interfaces/extendedRequest";
+import { Response } from 'express';
+import { ExtendedRequest } from '../../interfaces/extendedRequest';
+import OrderIngredients from '../../models/inventoryModel/orderIngredients';
 
 export const orderIngredient = async (req: ExtendedRequest, res: Response) => {
   const { ingredients, cost } = req.body;
-
+  const { user } = req;
+  const organizationName = user?.organizationName;
   // Validate required fields
   if (!ingredients || !cost) {
     return res
@@ -17,6 +18,8 @@ export const orderIngredient = async (req: ExtendedRequest, res: Response) => {
     const newOrder = await OrderIngredients.create({
       ingredients,
       cost,
+      user: user?._id,
+      organizationName
     });
 
     // Return the created order with a success response

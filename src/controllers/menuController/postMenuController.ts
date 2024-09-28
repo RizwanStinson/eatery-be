@@ -1,24 +1,22 @@
-
-
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 import {
   IaddOn,
   Iingredient,
   ImealTime,
   Imenu,
   Isize,
-} from '../../interfaces/inventoryInterface/interfaces';
-import menu from '../../models/menuModel/menuModel';
-import { DefaultValues } from '../../consts';
-import { ExtendedRequest } from '../../interfaces/extendedRequest';
+} from "../../interfaces/inventoryInterface/interfaces";
+import menu from "../../models/menuModel/menuModel";
+import { DefaultValues } from "../../consts";
+import { ExtendedRequest } from "../../interfaces/extendedRequest";
 
 const menuController = async (req: ExtendedRequest, res: Response) => {
   const { organizationName } = req.user!;
-  
+
   try {
-    console.log('file', req.file);
+    console.log("file", req.file);
     const menuController: Imenu = {
-      name: req.body.name,
+      itemName: req.body.itemName,
       category: req.body.category,
       mealTime: req.body.mealTime.map((mealtime: ImealTime) => ({
         mealtime: mealtime.mealtime,
@@ -48,11 +46,11 @@ const menuController = async (req: ExtendedRequest, res: Response) => {
       quantity: req.body.quantity || 0,
       totalPrice: req.body.totalPrice || 0,
     };
-    console.log('newMenu:', menuController);
+    console.log("newMenu:", menuController);
     const newMenuItem = await menu.create(menuController);
     res.status(200).json(newMenuItem);
   } catch (error) {
-    console.error('Error creating menu item:', error);
+    console.error("Error creating menu item:", error);
     res.status(500).send(error);
   }
 };

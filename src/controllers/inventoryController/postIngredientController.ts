@@ -13,15 +13,16 @@ const postIngredientController = async (
     }
 
     const user = req.user;
-    const organization = user.organizationName;
+    const organizationName = user.organizationName;
     console.log("User Info:", user);
 
+    // const { user } = req;
     const Ingredient = {
       ingredient: req.body.ingredient,
       unit: req.body.unit,
       poo: req.body.poo,
       capacity: req.body.capacity,
-      organization,
+      organizationName,
     };
 
     console.log("New Ingredient: ", Ingredient);
@@ -30,7 +31,8 @@ const postIngredientController = async (
     const Inventory = await inventory.create(Ingredient);
 
     res.status(200).json({ createIngredient, Inventory });
-  } catch (error) {
+    }
+    catch (error) {
     console.error("Error:", error);
     res.status(500).send(error);
   }

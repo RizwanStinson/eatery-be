@@ -14,7 +14,7 @@ export interface IaddOn {
   name: string;
   quantity: number;
   unit: string;
-  addonPrice: number;
+  addonPrice: number; // Add addOn price here
 }
 
 export interface Isize {
@@ -22,7 +22,7 @@ export interface Isize {
   ingredients: Iingredient[];
   preparationTime: number;
   sellingPrice: number;
-  addOns: IaddOn[];
+  addOns: IaddOn[]; // AddOns now includes the addOnPrice
 }
 
 export interface Imenu {

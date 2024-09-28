@@ -1,60 +1,108 @@
-import { ExtendedRequest } from "../../interfaces/extendedRequest";
-import { Response } from "express";
-import order from "../../models/inventoryModel/stockModel";
-import inventory from "../../models/inventoryModel/inventoryModel";
-import fs from "fs";
-import path from "path";
+import { addDays } from 'date-fns';
+import { Response } from 'express';
+import fs from 'fs/promises';
+import { ExtendedRequest } from '../../interfaces/extendedRequest';
+import inventory from '../../models/inventoryModel/inventoryModel';
+import OrderIngredients from '../../models/inventoryModel/orderIngredients';
+import order from '../../models/inventoryModel/stockModel';
 
-const stockController = async (req: ExtendedRequest, res: Response) => {
+export const stockController = async (req: ExtendedRequest, res: Response) => {
   try {
-    if (!req.user) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    const organization = req.user.organizationName;
-
-    const filePath = path.join(__dirname, "../../../vendorList.json");
-    const jsonData = fs.readFileSync(filePath, "utf8");
-    const dummyData = JSON.parse(jsonData);
-   
-
-    const newOrder = {
-      name: req.body.name,
-      stock: req.body.stock,
-      organization,
-    };
-    console.log("new Order:", newOrder);
-
-    const orderName = newOrder.name;
-    const matchedItem = dummyData.find(
-      (item: { itemName: string }) => item.itemName === orderName
+    const organizationName = req.user?.organizationName;
+    const filePath = require('path').join(
+      __dirname,
+      '../../../vendorList.json'
     );
+    const jsonData = await fs.readFile(filePath, 'utf8');
+    const dummyData = JSON.parse(jsonData);
 
-    if (matchedItem) {
-      const updateInventory = await inventory.findOne({
-        name: req.body.name,
-        organization,
-      });
-      console.log("Data from atlas:", updateInventory);
+    const { ingredients, cost } = req.body;
+    const newOrder = await OrderIngredients.create({
+      ingredients,
+      cost,
+      organizationName
+      // user: user!._id,
+    });
 
-      if (updateInventory) {
-        updateInventory.prevStock = req.body.stock;
-        updateInventory.prevStockExpiry = matchedItem.expiryDate;
-        updateInventory.unitCost = matchedItem.price;
-        await updateInventory.save();
-        return res.status(200).json(updateInventory);
+    const updatedInventoryItems = [];
+
+    for (const ingredient of newOrder.ingredients) {
+      const {
+        ingredient: ingredientName,
+        quantity,
+        unit,
+        deliveryDate,
+      } = ingredient;
+
+      const matchedItem = dummyData.find(
+        (item: { itemName: string }) => item.itemName === ingredientName
+      );
+
+      if (matchedItem) {
+        let updateInventory = await inventory.findOne({
+          ingredient: ingredientName,
+          // user: user!._id,
+        });
+
+        if (updateInventory) {
+          // Scenario 1: prevStock is 0, update prevStock and prevExpiary
+          if (updateInventory.prevStock === 0) {
+            updateInventory.prevStock = quantity;
+            updateInventory.prevExpiary = addDays(new Date(deliveryDate), 4);
+            updateInventory.currentStock = quantity; // Set currentStock to the new quantity
+          }
+          // Scenario 2: prevStock is not 0, update newStock and newStockExpiry
+          else {
+            updateInventory.newStock =
+              (updateInventory.newStock as number) + quantity;
+            updateInventory.newStockExpiry = addDays(new Date(deliveryDate), 4);
+            updateInventory.currentStock =
+              (updateInventory.prevStock as number) +
+              (updateInventory.newStock as number);
+          }
+
+          updateInventory.unit = unit;
+          updateInventory.cost = matchedItem.price;
+          updateInventory.incomingStock = new Date(deliveryDate);
+
+          await updateInventory.save();
+        }
+        // If the inventory item doesn't exist, create a new entry
+        else {
+          updateInventory = await inventory.create({
+            ingredient: ingredientName,
+            currentStock: quantity,
+            unit,
+            cost: matchedItem.price,
+            prevStock: quantity,
+            newStock: 0,
+            prevExpiary: addDays(new Date(deliveryDate), 4),
+            incomingStock: new Date(deliveryDate),
+            // user: user?._id,
+          });
+        }
+        updatedInventoryItems.push(updateInventory);
+      } else {
+        console.log(`No match found for ingredient: ${ingredientName}`);
       }
-      console.log("Matched Item: ", matchedItem);
-    } else {
-      console.log("No match found for the order name.");
     }
 
-    const recentOrder = await order.create(newOrder);
-    res.status(200).send(recentOrder);
+    const recentOrder = await order.create({
+      ingredients: newOrder.ingredients,
+      cost: newOrder.cost,
+      // user: user?._id,
+    });
+
+    res.status(201).json({
+      message: 'Order placed and inventory updated',
+      recentOrder,
+      updatedInventoryItems,
+    });
   } catch (error) {
-    console.error("Error creating new order:", error);
-    res.status(500).json({ error: "Internal server error" });
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: 'An unknown error occurred' });
+    }
   }
 };
-
-export default stockController;

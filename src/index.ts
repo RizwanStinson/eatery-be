@@ -7,6 +7,7 @@ import router from "./routes/allRoute";
 import path from 'path';
 
 import { DefaultValues } from './consts';
+import { expiredItems } from './scheduleJobs/expiredItems';
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
@@ -21,7 +22,7 @@ app.get("/", (req: Request, res: Response) => {
     message: "Welcome to Eatery Backend",
   });
 });
-
+expiredItems;
 async function dbConnect() {
   try {
     await connectMongoose();
