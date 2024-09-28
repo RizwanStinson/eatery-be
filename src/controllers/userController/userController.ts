@@ -96,7 +96,7 @@ export async function login(req: Request, res: Response) {
         userType: user.userType,
       },
       SECRET_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: "24h" }
     );
 
     return res.status(200).send({
