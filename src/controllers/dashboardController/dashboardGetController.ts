@@ -40,7 +40,7 @@ export const getNumberOfOrdersForEachDayInLastSevenDays = async (
     const today = new Date();
     const ordersPerDay = [];
 
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 30; i++) {
       const start = startOfDay(subDays(today, i));
       const end = endOfDay(subDays(today, i));
 
@@ -115,7 +115,7 @@ export const getRevenueForLastSevenDays = async (
     const today = new Date();
     const revenuePerDay = [];
 
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 30; i++) {
       const startOfDayCurrent = startOfDay(subDays(today, i));
       const endOfDayCurrent = endOfDay(subDays(today, i));
 
