@@ -219,6 +219,8 @@ export const getTotalExpenseForToday = async (req: Request, res: Response) => {
     const startOfToday = startOfDay(new Date());
     const endOfToday = endOfDay(new Date());
 
+  
+    const orders = await OrderIngredients.find(
       {
         createdAt: {
           $gte: startOfToday,
