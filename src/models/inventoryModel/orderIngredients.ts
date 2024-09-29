@@ -7,20 +7,25 @@ const cartDataSchema = new Schema({
   deliveryDate: { type: String, required: true },
 });
 
-const orderIngredientsSchema = new Schema({
-  ingredients: {
-    type: [cartDataSchema],
-    required: true,
+const orderIngredientsSchema = new Schema(
+  {
+    ingredients: {
+      type: [cartDataSchema],
+      required: true,
+    },
+    cost: {
+      type: Number,
+      required: true,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
-  cost: {
-    type: Number,
-    required: true,
-  },
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const OrderIngredients = model('OrderIngredients', orderIngredientsSchema);
 

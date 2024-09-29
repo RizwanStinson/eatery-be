@@ -3,6 +3,8 @@ import {POS} from "../../models/posModel/posModel";
 import { startOfDay, endOfDay, subDays } from "date-fns";
 import { IPos } from "../../interfaces/posInterface";
 import { Imenu } from "../../interfaces/posInterface";
+import menu from "../../models/menuModel/menuModel";
+import OrderIngredients from "../../models/inventoryModel/orderIngredients";
 
 export const getNumberOfOrdersForToday = async (
   req: Request,
@@ -187,5 +189,59 @@ export const getTopSellingItems = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+export const getAllItems = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+   
+   const totalItems = await menu.countDocuments();
+
+    console.log("Total number of orders for today:", totalItems);
+
+    return res.status(200).json(totalItems);
+  } catch (error) {
+    console.error("Error fetching number of orders for today:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+export const getTotalExpenseForToday = async (req: Request, res: Response) => {
+  try {
+    const startOfToday = startOfDay(new Date());
+    const endOfToday = endOfDay(new Date());
+
+  
+    const orders = await OrderIngredients.find(
+      {
+        createdAt: {
+          $gte: startOfToday,
+          $lte: endOfToday,
+        },
+      }
+    );
+
+    if (!orders || orders.length === 0) {
+      return res.status(404).json({ message: "No orders found for today" });
+    }
+
+
+    let totalExpense = 0;
+    orders.forEach((order) => {
+      totalExpense += order.cost;
+    });
+
+    return res.status(200).json(parseFloat(totalExpense.toFixed(2)));
+  } catch (error) {
+    console.error("Error calculating total expense:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 };
